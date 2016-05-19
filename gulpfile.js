@@ -19,6 +19,7 @@ elixir(function(mix) {
             'resources/assets/vendor/bootstrap/dist/js/bootstrap.min.js',
             'resources/assets/vendor/angular-bootstrap/ui-bootstrap.min.js',
             'resources/assets/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
+            'resources/assets/vendor/angular-ui-router/release/angular-ui-router.min.js',
             'resources/assets/vendor/moment/min/moment-with-locales.min.js',
             'resources/assets/vendor/underscore/underscore-min.js'
         ], 'public/js/libs.js', './')
