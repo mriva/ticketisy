@@ -14,3 +14,6 @@
 Route::auth();
 
 Route::get('/', 'HomeController@index');
+
+Route::resource('/api/service', 'Api\ServiceController');
+Route::resource('/api/product', 'Api\ProductController');
