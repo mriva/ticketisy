@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="ticketisy">
 <head>
+    <base href="/">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +26,11 @@
         }
     </style>
 </head>
-<body id="app-layout">
+@if (Auth::user())
+    <body id="app-layout" ng-init="authLevel = '{{Auth::user()->role}}'">
+@else
+    <body id="app-layout" ng-init="authLevel = 'guest'">
+@endif
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
@@ -48,7 +53,8 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     @unless (Auth::guest())
-                        <li><a href="{{ url('/home') }}">Home</a></li>
+                        <li><a href="{{ url('/#services') }}">Services</a></li>
+                        <li><a href="{{ url('/#tickets') }}">Tickets</a></li>
                     @endif
                 </ul>
 

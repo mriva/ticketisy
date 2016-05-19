@@ -24,6 +24,6 @@ elixir(function(mix) {
             'resources/assets/vendor/underscore/underscore-min.js'
         ], 'public/js/libs.js', './')
         .scripts([
-            'resources/assets/js/app.js'
+            'resources/assets/js/**/*.js'
         ], 'public/js/app.js', './');
 });
