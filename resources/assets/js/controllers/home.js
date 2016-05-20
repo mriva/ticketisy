@@ -1,3 +1,3 @@
 Ticketisy.controller('HomeController', function($scope, $http) {
-    console.log($scope.authLevel);
+    console.log($scope.role);
 });

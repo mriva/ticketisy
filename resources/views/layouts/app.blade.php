@@ -27,9 +27,9 @@
     </style>
 </head>
 @if (Auth::user())
-    <body id="app-layout" ng-init="authLevel = '{{Auth::user()->role}}'">
+    <body id="app-layout" ng-init="role = '{{Auth::user()->role}}'; api_token = '{{Auth::user()->api_token}}'">
 @else
-    <body id="app-layout" ng-init="authLevel = 'guest'">
+    <body id="app-layout" ng-init="role = 'guest'">
 @endif
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">

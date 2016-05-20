@@ -1,9 +1,18 @@
 <div class="col-md-10 col-md-offset-1">
     <div class="panel panel-default">
-        <div class="panel-heading">Services</div>
+        <div class="panel-heading">Servizi attivi</div>
 
         <div class="panel-body">
-            Services
+            <table class="table" ng-show="services.length">
+                <tr ng-repeat="service in services">
+                    <td>{{service.name}}</td>
+                    <td>{{service.title}}</td>
+                </tr>
+            </table>
+            <div ng-show="empty">Non ci sono servizi attivi</div>
+
+            <a ui-sref="newservice" href="/#newservice" class="btn btn-success">Attiva servizio</a>
+
         </div>
     </div>
 </div>

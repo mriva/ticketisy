@@ -7,21 +7,29 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Collections\ServiceCollection;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
 
+    protected $user;
+
     public function __construct() {
-        // $this->middleware('auth');
+        $this->middleware('auth:api');
+        $this->user = Auth::guard('api')->user();
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $services = ServiceCollection::get([]);
+        $filters = $request->all();
+        $filters['user'] = $this->user;
+
+        $services = ServiceCollection::get($filters);
         return response()->json($services);
     }
 

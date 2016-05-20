@@ -13,21 +13,24 @@ class RestCollection {
         'skip' => 'setSkip',
     ];
 
-    protected $take = 10;
+    protected $take = 50;
 
     protected $skip = 0;
 
     public static function get($filters = []) {
         $instance = new static;
 
-        $count = $instance->resource->count();
-
         $instance->filters = $filters;
         $instance->filter();
         
+        $count = $instance->resource->count();
+
+        $data = $instance->resource->get();
+
         return [
-            'count' => $count,
-            'data' => $instance->resource->get(),
+            'total'    => $count,
+            'returned' => count($data),
+            'data'     => $data,
         ];
     }
 

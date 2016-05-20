@@ -20,9 +20,11 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = ProductCollection::get([]);
+        $filters = $request->all();
+        $products = ProductCollection::get($filters);
+
         return response()->json($products);
     }
 
