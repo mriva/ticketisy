@@ -9,6 +9,7 @@ class ProductsAPITest extends TestCase
 
     public function testUnauthorized() {
         $this->json('GET', '/api/product')
+            ->assertResponseStatus(401)
             ->see('Unauthorized');
     }
 

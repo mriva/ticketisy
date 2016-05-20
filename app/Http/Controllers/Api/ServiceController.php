@@ -46,7 +46,7 @@ class ServiceController extends RestController
      */
     public function store(Request $request)
     {
-        if (Gate::denies('activate-service')) {
+        if ($this->user->cannot('activate-service')) {
             return response([
                 'auth' => 'User role not allowed'
             ], 401);
@@ -61,6 +61,10 @@ class ServiceController extends RestController
         $data['user_id'] = $this->user->id;
 
         Service::create($data);
+
+        return [
+            'status' => 'ok',
+        ];
     }
 
     /**
