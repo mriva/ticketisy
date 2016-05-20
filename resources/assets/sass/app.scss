@@ -1,2 +1,16 @@
 // @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+.ticket-events {
+    li {
+        border: 1px solid #cccccc;
+        background-color: #f0f0f0;
+        padding: 5px 10px;
+        margin-bottom: 5px;
+
+        .title {
+            border-bottom: 1px solid #cccccc;
+            padding: 5px 0 10px 0;
+            margin-bottom: 10px;
+        }
+    }
+}

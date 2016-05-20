@@ -13,9 +13,10 @@
             </ul>
 
             <h4>Eventi</h4>
-            <ul>
+            <ul class="list-unstyled ticket-events">
                 <li ng-repeat="event in ticket.events">
-                <div ng-include="event.action"></div>
+                    <div class="title">{{ticket.created_at | dateTimeEU}} - {{event.actor.name}} &lt;{{event.actor.email}}&gt;</div>
+                    <div ng-include="event.action"></div>
                 </li>
             </ul>
         </div>
@@ -23,9 +24,10 @@
 </div>
 
 <script type="text/ng-template" id="create">
-L'utente {{event.actor}} ha creato il ticket in data {{ticket.created_at | dateTimeEU}}
+<p><b>Creazione ticket</b></p>
 </script>
-<script type="text/ng-template" id="comment">
-L'utente {{ticket.user.name}} ha aggiunto un commento:<br>
 
+<script type="text/ng-template" id="comment">
+<p><b>Nuovo commento:</b></p>
+<div style="white-space: pre-line">{{event.value.description}}</div>
 </script>
