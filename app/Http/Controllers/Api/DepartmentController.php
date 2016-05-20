@@ -6,11 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Collections\ProductCollection;
+use App\Collections\DepartmentCollection;
 
-class ProductController extends Controller
+class DepartmentController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -19,9 +18,9 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $filters = $request->all();
-        $products = ProductCollection::get($filters);
+        $departments = DepartmentCollection::get($filters);
 
-        return response()->json($products);
+        return response()->json($departments);
     }
 
     /**

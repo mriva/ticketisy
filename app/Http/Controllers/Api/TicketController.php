@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Collections\ProductCollection;
+use App\Collections\TicketCollection;
+use App\Ticket;
+use App\TicketEvent;
 
-class ProductController extends Controller
+class TicketController extends RestController
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -19,9 +20,10 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $filters = $request->all();
-        $products = ProductCollection::get($filters);
+        $filters['user'] = $this->user;
 
-        return response()->json($products);
+        $services = TicketCollection::get($filters);
+        return response()->json($services);
     }
 
     /**
@@ -42,7 +44,38 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'service_id'    => 'required',
+            'department_id' => 'required',
+            'priority'      => 'required|in:normal,urgent,critical',
+            'title'         => 'required',
+            'description'   => 'required',
+        ]);
+
+        $data = $request->all();
+        $data['user_id'] = $this->user->id;
+
+        $ticket = Ticket::create($data);
+
+        $ticket_event = TicketEvent::create([
+            'ticket_id' => $ticket->id,
+            'action' => 'create',
+            'value' => [
+                'actor' => $this->user->id,
+            ]
+        ]);
+
+        $ticket_event = TicketEvent::create([
+            'ticket_id' => $ticket->id,
+            'action' => 'comment',
+            'value' => [
+                'description' => $data['description'],
+            ]
+        ]);
+
+        return [
+            'status' => 'ok',
+        ];
     }
 
     /**

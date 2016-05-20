@@ -11,7 +11,7 @@ Ticketisy.controller('ServicesController', function($scope, $http) {
     });
 });
 
-Ticketisy.controller('NewServiceController', function($scope, $http) {
+Ticketisy.controller('NewServiceController', function($scope, $http, $state) {
     $scope.newservice = {};
     $scope.errors = {};
 
@@ -28,7 +28,7 @@ Ticketisy.controller('NewServiceController', function($scope, $http) {
 
     $scope.save = function() {
         $http.post('/api/service', postdata).success(function(response) {
-            console.log(response);
+            $state.go('services');
         }).error(function(response) {
             $scope.errors = response;
         });

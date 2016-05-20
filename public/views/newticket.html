@@ -1,0 +1,58 @@
+<div class="col-md-10 col-md-offset-1">
+    <div class="panel panel-default">
+        <div class="panel-heading">Apri nuovo ticket</div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Servizio attivo:</label>
+                        <select ng-model="newticket.service_id" class="form-control">
+                            <option ng-repeat="service in services" value="{{service.id}}">{{service.name}} - {{service.title}}</option>
+                        </select>
+                        <div class="text-danger" ng-show="errors.service_id">{{errors.service_id[0]}}</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Dipartimento:</label>
+                        <select ng-model="newticket.department_id" class="form-control">
+                            <option ng-repeat="department in departments" value="{{department.id}}">{{department.name}}</option>
+                        </select>
+                        <div class="text-danger" ng-show="errors.department_id">{{errors.department_id[0]}}</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Priorità:</label>
+                        <select ng-model="newticket.priority" class="form-control">
+                            <option value="normal">Normale</option>
+                            <option value="urgent">Urgente</option>
+                            <option value="critical">Critica</option>
+                        </select>
+                        <div class="text-danger" ng-show="errors.priority">{{errors.priority[0]}}</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Titolo:</label>
+                        <input type="text" class="form-control" ng-model="newticket.title">
+                        <div class="text-danger" ng-show="errors.title">{{errors.title[0]}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <label>Descrizione:</label>
+                        <textarea class="form-control" ng-model="newticket.description" cols="90" rows="6"></textarea>
+                        <div class="text-danger" ng-show="errors.description">{{errors.description[0]}}</div>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-success" ng-click="save()">Inserisci</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
