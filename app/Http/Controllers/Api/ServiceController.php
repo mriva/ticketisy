@@ -11,15 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Service;
 use Illuminate\Support\Facades\Gate;
 
-class ServiceController extends Controller
+class ServiceController extends RestController
 {
-
-    protected $user;
-
-    public function __construct() {
-        $this->middleware('auth:api');
-        $this->user = Auth::guard('api')->user();
-    }
 
     /**
      * Display a listing of the resource.
