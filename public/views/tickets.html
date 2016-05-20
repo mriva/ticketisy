@@ -19,7 +19,7 @@
                     <td>{{ticket.service_name}}</td>
                     <td>{{ticket.product_title}}</td>
                     <td>{{ticket.created_at | dateTimeEU}}</td>
-                    <td class="text-right"><button class="btn btn-xs btn-success">dettagli</button></td>
+                    <td class="text-right"><a href="#/ticket/{{ticket.id}}" class="btn btn-xs btn-success">dettagli</a></td>
                 </tr>
             </table>
             <div ng-show="empty" class="form-group">Non sono presenti ticket</div>

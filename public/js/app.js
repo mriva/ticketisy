@@ -144,8 +144,16 @@ Ticketisy.controller('NewTicketController', function($scope, $http, $state) {
     }
 });
 
-Ticketisy.controller('TicketDetailsController', function($scope, $http, $state) {
-    
+Ticketisy.controller('TicketDetailsController', function($scope, $http, $stateParams) {
+    var ticket_id = $stateParams.id;
+
+    $http.get('/api/ticket/' + ticket_id, {
+        params: {
+            api_token: $scope.api_token
+        }
+    }).success(function(response) {
+        $scope.ticket = response;
+    });
 });
 
 //# sourceMappingURL=app.js.map

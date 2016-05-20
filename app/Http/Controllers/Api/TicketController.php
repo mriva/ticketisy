@@ -59,15 +59,14 @@ class TicketController extends RestController
 
         $ticket_event = TicketEvent::create([
             'ticket_id' => $ticket->id,
-            'action' => 'create',
-            'value' => [
-                'actor' => $this->user->id,
-            ]
+            'actor_id'  => $this->user->id,
+            'action'    => 'create',
         ]);
 
         $ticket_event = TicketEvent::create([
             'ticket_id' => $ticket->id,
-            'action' => 'comment',
+            'actor_id'  => $this->user->id,
+            'action'    => 'comment',
             'value' => [
                 'description' => $data['description'],
             ]
@@ -86,7 +85,9 @@ class TicketController extends RestController
      */
     public function show($id)
     {
-        //
+        $ticket = Ticket::find($id);
+
+        return $ticket;
     }
 
     /**
