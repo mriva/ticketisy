@@ -7,6 +7,7 @@
             <ul>
                 <li><b>Data creazione:</b> {{ticket.created_at | dateTimeEU}}</li>
                 <li><b>Inserito da:</b> {{ticket.user.name}}</li>
+                <li><b>Priorità:</b> {{ticket.priority}}</li>
                 <li><b>Dipartimento:</b> {{ticket.department.name}}</li>
                 <li><b>Servizio:</b> {{ticket.service.name}}</li>
                 <li><b>Prodotto:</b> {{ticket.service.product.title}}</li>
@@ -19,6 +20,19 @@
                     <div ng-include="event.action"></div>
                 </li>
             </ul>
+
+            <div class="text-center">
+                <div ng-show="comment_open">
+                    <div class="form-group">
+                        <textarea ng-model="newcomment" class="form-control"></textarea>
+                    </div>
+
+                    <button class="btn btn-success" ng-click="comment_save()">Salva</button>
+                    <button class="btn btn-danger" ng-click="comment_close()">Annulla</button>
+                </div>
+
+                <button ng-hide="comment_open" class="btn btn-primary" ng-click="comment()">Aggiungi commento</button>
+            </div>
         </div>
     </div>
 </div>

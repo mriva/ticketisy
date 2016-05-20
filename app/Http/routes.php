@@ -18,4 +18,5 @@ Route::get('/', 'HomeController@index');
 Route::resource('/api/service', 'Api\ServiceController');
 Route::resource('/api/product', 'Api\ProductController');
 Route::resource('/api/ticket', 'Api\TicketController');
+Route::resource('/api/ticketevent', 'Api\TicketEventController');
 Route::resource('/api/department', 'Api\DepartmentController');

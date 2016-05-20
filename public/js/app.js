@@ -146,14 +146,31 @@ Ticketisy.controller('NewTicketController', function($scope, $http, $state) {
 
 Ticketisy.controller('TicketDetailsController', function($scope, $http, $stateParams) {
     var ticket_id = $stateParams.id;
+    $scope.comment_open = false;
+    $scope.newcomment = '';
 
-    $http.get('/api/ticket/' + ticket_id, {
-        params: {
-            api_token: $scope.api_token
-        }
-    }).success(function(response) {
-        $scope.ticket = response;
-    });
+    $scope.get_tickets = function() {
+        $http.get('/api/ticket/' + ticket_id, {
+            params: {
+                api_token: $scope.api_token
+            }
+        }).success(function(response) {
+            $scope.ticket = response;
+        });
+    }
+
+    $scope.comment = function() {
+        $scope.comment_open = true;
+    }
+
+    $scope.comment_close = function() {
+        $scope.newcomment = '';
+        $scope.comment_open = false;
+    }
+
+    $scope.comment_save = function() {
+        
+    }
 });
 
 //# sourceMappingURL=app.js.map
