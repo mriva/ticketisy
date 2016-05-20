@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Collections\ServiceCollection;
 use Illuminate\Support\Facades\Auth;
+use App\Service;
+use Illuminate\Support\Facades\Gate;
 
 class ServiceController extends Controller
 {
@@ -51,7 +53,21 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (Gate::denies('activate-service')) {
+            return response([
+                'auth' => 'User role not allowed'
+            ], 401);
+        }
+
+        $this->validate($request, [
+            'product_id' => 'required',
+            'name'       => 'required',
+        ]);
+
+        $data = $request->all();
+        $data['user_id'] = $this->user->id;
+
+        Service::create($data);
     }
 
     /**

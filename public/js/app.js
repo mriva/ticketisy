@@ -13,8 +13,8 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
         })
         .state('newservice', {
             url: '/newservice',
-            templateUrl: 'views/new-service.html',
-            controller: 'ServicesController'
+            templateUrl: 'views/newservice.html',
+            controller: 'NewServiceController'
         })
         .state('tickets', {
             url: '/tickets',
@@ -38,6 +38,30 @@ Ticketisy.controller('ServicesController', function($scope, $http) {
     }).error(function(response) {
         console.log('error');
     });
+});
+
+Ticketisy.controller('NewServiceController', function($scope, $http) {
+    $scope.newservice = {};
+    $scope.errors = {};
+
+    $http.get('/api/product', {
+        params: {
+            api_token: $scope.api_token
+        }
+    }).success(function(response) {
+        $scope.products = response.data;
+    });
+
+    var postdata = $scope.newservice;
+    postdata.api_token = $scope.api_token;
+
+    $scope.save = function() {
+        $http.post('/api/service', postdata).success(function(response) {
+            console.log(response);
+        }).error(function(response) {
+            $scope.errors = response;
+        });
+    }
 });
 
 Ticketisy.controller('TicketsController', function($scope, $http) {

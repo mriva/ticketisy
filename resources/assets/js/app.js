@@ -13,8 +13,8 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
         })
         .state('newservice', {
             url: '/newservice',
-            templateUrl: 'views/new-service.html',
-            controller: 'ServicesController'
+            templateUrl: 'views/newservice.html',
+            controller: 'NewServiceController'
         })
         .state('tickets', {
             url: '/tickets',
