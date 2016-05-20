@@ -24,6 +24,14 @@ class TicketCollection extends RestCollection {
             return;
         }
 
+        if ($user->role == 'technician') {
+            $this->resource = $this->resource
+                ->join('users_departments', 'tickets.department_id', '=', 'users_departments.department_id')
+                ->where('users_departments.user_id', $user->id);
+
+            return;
+        }
+
         $this->resource = $this->resource->where('tickets.user_id', $user->id);
     }
 

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ServicesAPITest extends TestCase
 {
+    use DatabaseTransactions;
 
     public function testUnauthorized() {
         $this->json('GET', '/api/service')

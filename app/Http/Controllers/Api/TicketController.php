@@ -44,6 +44,12 @@ class TicketController extends RestController
      */
     public function store(Request $request)
     {
+        if ($this->user->cannot('create-ticket', $request)) {
+            return response([
+                'auth' => 'Unauthorized'
+            ], 401);
+        }
+
         $this->validate($request, [
             'service_id'    => 'required',
             'department_id' => 'required',
@@ -86,6 +92,12 @@ class TicketController extends RestController
     public function show($id)
     {
         $ticket = Ticket::find($id);
+
+        if ($this->user->cannot('access-ticket', $ticket)) {
+            return response([
+                'auth' => 'Unauthorized'
+            ], 401);
+        }
 
         return $ticket;
     }
