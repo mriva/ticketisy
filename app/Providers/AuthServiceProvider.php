@@ -44,5 +44,17 @@ class AuthServiceProvider extends ServiceProvider
 
             return $user->id == $ticket->user_id;
         });
+
+        $gate->define('list-users', function($user, $role) {
+            if ($user->role == 'admin') {
+                return true;
+            }
+
+            if ($user->role == 'technician') {
+                return !$role || $role == 'user';
+            }
+
+            return false;
+        });
     }
 }
