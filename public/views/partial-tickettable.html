@@ -1,6 +1,7 @@
             <table class="table" ng-show="tickets.length">
                 <tr>
                     <th>ID</th>
+                    <th>Reparto</th>
                     <th>Titolo</th>
                     <th>Servizio</th>
                     <th>Prodotto</th>
@@ -11,6 +12,7 @@
 
                 <tr ng-repeat="ticket in tickets">
                     <td>{{ticket.id}}</td>
+                    <td>{{ticket.department}}</td>
                     <td>{{ticket.title}}</td>
                     <td>{{ticket.service_name}}</td>
                     <td>{{ticket.product_title}}</td>
