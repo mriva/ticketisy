@@ -56,6 +56,10 @@
                         @if (Auth::user()->role == 'user')
                             <li><a href="{{ url('/#services') }}">Servizi</a></li>
                             <li><a href="{{ url('/#tickets') }}">Ticket aperti</a></li>
+                        @elseif (Auth::user()->role == 'technician')
+                            <li><a href="{{ url('/#my-tickets') }}">Miei ticket</a></li>
+                            <li><a href="{{ url('/#pending-tickets') }}">Ticket in attesa</a></li>
+                            <li><a href="{{ url('/#users') }}">Utenti</a></li>
                         @endif
                     @endif
                 </ul>

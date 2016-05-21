@@ -26,6 +26,11 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
             templateUrl: 'views/tickets.html',
             controller: 'TicketsController'
         })
+        .state('pendingtickets', {
+            url: '/pending-tickets',
+            templateUrl: 'views/pending-tickets.html',
+            controller: 'PendingTicketsController'
+        })
         .state('newticket', {
             url: '/newticket/:service_id',
             templateUrl: 'views/newticket.html',
@@ -35,6 +40,16 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
             url: '/ticket/:id',
             templateUrl: 'views/ticketdetails.html',
             controller: 'TicketDetailsController'
+        })
+        .state('mytickets', {
+            url: '/my-tickets',
+            templateUrl: 'views/my-tickets.html',
+            controller: 'MyTicketsController'
+        })
+        .state('users', {
+            url: '/users',
+            templateUrl: 'views/users.html',
+            controller: 'UsersController'
         });
 })
 .filter('dateTimeEU', function() {
@@ -128,8 +143,18 @@ Ticketisy.controller('TicketsController', function($scope, $http) {
     }).success(function(response) {
         $scope.tickets = response.data;
         $scope.empty = !response.data.length;
-    }).error(function(response) {
-        console.log('error');
+    });
+});
+
+Ticketisy.controller('PendingTicketsController', function($scope, $http) {
+    $http.get('/api/ticket', {
+        params: {
+            api_token: $scope.api_token,
+            status: 'pending'
+        }
+    }).success(function(response) {
+        $scope.tickets = response.data;
+        $scope.empty = !response.data.length;
     });
 });
 
@@ -213,6 +238,25 @@ Ticketisy.controller('TicketDetailsController', function($scope, $http, $statePa
     }
 
     $scope.get_ticket();
+});
+
+Ticketisy.controller('MyTicketsController', function($scope, $http) {
+    $http.get('/api/ticket', {
+        params: {
+            api_token: $scope.api_token,
+            status: 'assigned',
+            technician: 'me',
+        }
+    }).success(function(response) {
+        $scope.tickets = response.data;
+        $scope.empty = !response.data.length;
+    }).error(function(response) {
+        console.log('error');
+    });
+});
+
+Ticketisy.controller('UsersController', function($scope, $http) {
+    
 });
 
 //# sourceMappingURL=app.js.map

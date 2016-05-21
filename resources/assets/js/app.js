@@ -26,6 +26,11 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
             templateUrl: 'views/tickets.html',
             controller: 'TicketsController'
         })
+        .state('pendingtickets', {
+            url: '/pending-tickets',
+            templateUrl: 'views/pending-tickets.html',
+            controller: 'PendingTicketsController'
+        })
         .state('newticket', {
             url: '/newticket/:service_id',
             templateUrl: 'views/newticket.html',
@@ -35,6 +40,16 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
             url: '/ticket/:id',
             templateUrl: 'views/ticketdetails.html',
             controller: 'TicketDetailsController'
+        })
+        .state('mytickets', {
+            url: '/my-tickets',
+            templateUrl: 'views/my-tickets.html',
+            controller: 'MyTicketsController'
+        })
+        .state('users', {
+            url: '/users',
+            templateUrl: 'views/users.html',
+            controller: 'UsersController'
         });
 })
 .filter('dateTimeEU', function() {

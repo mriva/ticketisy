@@ -7,8 +7,18 @@ Ticketisy.controller('TicketsController', function($scope, $http) {
     }).success(function(response) {
         $scope.tickets = response.data;
         $scope.empty = !response.data.length;
-    }).error(function(response) {
-        console.log('error');
+    });
+});
+
+Ticketisy.controller('PendingTicketsController', function($scope, $http) {
+    $http.get('/api/ticket', {
+        params: {
+            api_token: $scope.api_token,
+            status: 'pending'
+        }
+    }).success(function(response) {
+        $scope.tickets = response.data;
+        $scope.empty = !response.data.length;
     });
 });
 
@@ -92,4 +102,19 @@ Ticketisy.controller('TicketDetailsController', function($scope, $http, $statePa
     }
 
     $scope.get_ticket();
+});
+
+Ticketisy.controller('MyTicketsController', function($scope, $http) {
+    $http.get('/api/ticket', {
+        params: {
+            api_token: $scope.api_token,
+            status: 'assigned',
+            technician: 'me',
+        }
+    }).success(function(response) {
+        $scope.tickets = response.data;
+        $scope.empty = !response.data.length;
+    }).error(function(response) {
+        console.log('error');
+    });
 });
