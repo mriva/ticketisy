@@ -16,7 +16,7 @@
             <h4>Eventi</h4>
             <ul class="list-unstyled ticket-events">
                 <li ng-repeat="event in ticket.events">
-                    <div class="title">{{ticket.created_at | dateTimeEU}} - {{event.actor.name}} &lt;{{event.actor.email}}&gt;</div>
+                    <div class="title">{{event.created_at | dateTimeEU}} - {{event.actor.name}} &lt;{{event.actor.email}}&gt;</div>
                     <div ng-include="event.action"></div>
                 </li>
             </ul>

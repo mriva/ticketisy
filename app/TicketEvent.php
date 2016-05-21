@@ -12,7 +12,7 @@ class TicketEvent extends Model
     protected $table = 'tickets_events';
 
     protected $fillable = [
-        'ticket_id', 'actor_id', 'action', 'value'
+        'ticket_id', 'actor_id', 'action'
     ];
 
     protected $casts = [

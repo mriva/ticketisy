@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\TicketEvent;
 
 class TicketEventController extends RestController
 {
@@ -39,11 +40,17 @@ class TicketEventController extends RestController
     {
         $this->validate($request, [
             'ticket_id' => 'required',
-            'actor_id'  => 'required',
             'action'    => 'required|in:create,comment,priority,status,assignee',
         ]);
 
         $data = $request->all();
+        $data['actor_id'] = $this->user->id;
+
+        TicketEvent::create($data);
+
+        return [
+            'status' => 'ok',
+        ];
     }
 
     /**

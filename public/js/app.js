@@ -169,7 +169,17 @@ Ticketisy.controller('TicketDetailsController', function($scope, $http, $statePa
     }
 
     $scope.comment_save = function() {
-        
+        var postdata = {
+            api_token: $scope.api_token,
+            ticket_id: ticket_id,
+            action: 'comment',
+            value: $scope.newcomment
+        }
+
+        $http.post('/api/ticketevent', postdata).success(function(response) {
+            $scope.comment_open = false;
+            $scope.get_ticket();
+        });
     }
 
     $scope.get_ticket();
