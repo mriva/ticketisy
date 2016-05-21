@@ -20,3 +20,4 @@ Route::resource('/api/product', 'Api\ProductController');
 Route::resource('/api/ticket', 'Api\TicketController');
 Route::resource('/api/ticketevent', 'Api\TicketEventController');
 Route::resource('/api/department', 'Api\DepartmentController');
+Route::resource('/api/user', 'Api\UserController');
