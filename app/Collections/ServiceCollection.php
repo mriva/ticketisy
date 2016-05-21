@@ -12,7 +12,10 @@ class ServiceCollection extends RestCollection {
 
     public function __construct() {
         $this->resource = DB::table('services')
-            ->join('products', 'services.product_id', '=', 'products.id');
+            ->select('services.*', 'products.*', DB::raw('COUNT(tickets.id) AS open_tickets'))
+            ->join('products', 'services.product_id', '=', 'products.id')
+            ->leftJoin('tickets', 'tickets.service_id', '=', 'services.id')
+            ->groupBy('services.id');
 
         $this->actions = array_merge($this->actions, $this->local_actions);
     }
@@ -22,7 +25,7 @@ class ServiceCollection extends RestCollection {
             return;
         }
 
-        $this->resource = $this->resource->where('user_id', $user->id);
+        $this->resource = $this->resource->where('services.user_id', $user->id);
     }
 
 }
