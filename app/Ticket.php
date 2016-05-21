@@ -8,7 +8,7 @@ class Ticket extends Model
 {
 
     protected $fillable = [
-        'user_id', 'service_id', 'department_id', 'priority', 'title'
+        'user_id', 'service_id', 'department_id', 'priority', 'title', 'status'
     ];
 
     protected $with = ['department', 'user', 'technician', 'service', 'events'];

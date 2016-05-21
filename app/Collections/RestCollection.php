@@ -13,7 +13,7 @@ class RestCollection {
         'skip' => 'setSkip',
     ];
 
-    protected $take = 50;
+    protected $take = 30;
 
     protected $skip = 0;
 

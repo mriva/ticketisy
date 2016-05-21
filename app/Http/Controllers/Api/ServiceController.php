@@ -75,7 +75,7 @@ class ServiceController extends RestController
      */
     public function show($id)
     {
-        return "SINGLE";
+        return response()->json(Service::find($id));
     }
 
     /**

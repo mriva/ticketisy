@@ -34,3 +34,24 @@ Ticketisy.controller('NewServiceController', function($scope, $http, $state) {
         });
     }
 });
+
+Ticketisy.controller('ServiceDetailsController', function($scope, $http, $stateParams) {
+    var service_id = $stateParams.id
+
+    $http.get('/api/service/' + service_id, {
+        params: {
+            api_token: $scope.api_token
+        }
+    }).success(function(response) {
+        $scope.service = response;
+    });
+
+    $http.get('/api/ticket', {
+        params: {
+            api_token: $scope.api_token,
+            service: service_id,
+        }
+    }).success(function(response) {
+        $scope.tickets = response.data;
+    });
+});

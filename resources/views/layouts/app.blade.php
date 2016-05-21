@@ -53,8 +53,10 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     @unless (Auth::guest())
-                        <li><a href="{{ url('/#services') }}">Servizi</a></li>
-                        <li><a href="{{ url('/#tickets') }}">Tickets</a></li>
+                        @if (Auth::user()->role == 'user')
+                            <li><a href="{{ url('/#services') }}">Servizi</a></li>
+                            <li><a href="{{ url('/#tickets') }}">Ticket aperti</a></li>
+                        @endif
                     @endif
                 </ul>
 

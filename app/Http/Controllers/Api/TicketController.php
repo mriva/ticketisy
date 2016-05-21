@@ -60,6 +60,7 @@ class TicketController extends RestController
 
         $data = $request->all();
         $data['user_id'] = $this->user->id;
+        $data['status'] = 'pending';
 
         $ticket = Ticket::create($data);
 

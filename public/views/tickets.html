@@ -3,28 +3,8 @@
         <div class="panel-heading">Elenco ticket</div>
 
         <div class="panel-body">
-            <table class="table" ng-show="tickets.length">
-                <tr>
-                    <th>ID</th>
-                    <th>Titolo</th>
-                    <th>Servizio</th>
-                    <th>Prodotto</th>
-                    <th>Data</th>
-                    <th></th>
-                </tr>
-
-                <tr ng-repeat="ticket in tickets">
-                    <td>{{ticket.id}}</td>
-                    <td>{{ticket.title}}</td>
-                    <td>{{ticket.service_name}}</td>
-                    <td>{{ticket.product_title}}</td>
-                    <td>{{ticket.created_at | dateTimeEU}}</td>
-                    <td class="text-right"><a href="#/ticket/{{ticket.id}}" class="btn btn-xs btn-success">dettagli</a></td>
-                </tr>
-            </table>
+            <ng-include src="'views/partial-tickettable.html'"></ng-include>
             <div ng-show="empty" class="form-group">Non sono presenti ticket</div>
-
-            <a ui-sref="newticket" href="/#newticket" class="btn btn-success">Nuovo ticket</a>
         </div>
     </div>
 </div>

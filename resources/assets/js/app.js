@@ -16,13 +16,18 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
             templateUrl: 'views/newservice.html',
             controller: 'NewServiceController'
         })
+        .state('servicedetails', {
+            url: '/service/:id',
+            templateUrl: 'views/servicedetails.html',
+            controller: 'ServiceDetailsController'
+        })
         .state('tickets', {
             url: '/tickets',
             templateUrl: 'views/tickets.html',
             controller: 'TicketsController'
         })
         .state('newticket', {
-            url: '/newticket',
+            url: '/newticket/:service_id',
             templateUrl: 'views/newticket.html',
             controller: 'NewTicketController'
         })
@@ -37,7 +42,7 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
         if (raw_date == '0000-00-00 00:00:00') {
             return 'da confermare';
         } else {
-            return moment(raw_date).format('DD/MM/YYYY - HH:mm');
+            return moment(raw_date).format('DD/MM/YYYY HH:mm');
         }
     };
 })

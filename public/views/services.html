@@ -9,12 +9,14 @@
                     <th>Tipologia</th>
                     <th>Attivazione</th>
                     <th>Ticket aperti</th>
+                    <th></th>
                 </tr>
                 <tr ng-repeat="service in services">
                     <td>{{service.name}}</td>
                     <td>{{service.title}}</td>
                     <td>{{service.created_at | dateTimeEU}}</td>
                     <td>{{service.open_tickets}}</td>
+                    <td class="text-right"><a href="/#service/{{service.id}}" class="btn btn-xs btn-danger">gestisci</a></td>
                 </tr>
             </table>
             <div ng-show="empty" class="form-group">Non ci sono servizi attivi</div>

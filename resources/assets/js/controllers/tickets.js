@@ -1,7 +1,8 @@
 Ticketisy.controller('TicketsController', function($scope, $http) {
     $http.get('/api/ticket', {
         params: {
-            api_token: $scope.api_token
+            api_token: $scope.api_token,
+            status: 'pending,assigned'
         }
     }).success(function(response) {
         $scope.tickets = response.data;
@@ -11,18 +12,21 @@ Ticketisy.controller('TicketsController', function($scope, $http) {
     });
 });
 
-Ticketisy.controller('NewTicketController', function($scope, $http, $state) {
+Ticketisy.controller('NewTicketController', function($scope, $http, $state, $stateParams) {
+    var service_id = $stateParams.service_id;
+
     $scope.newticket = {
         priority: 'normal',
     };
     $scope.errors = {};
     
-    $http.get('/api/service', {
+    $http.get('/api/service/' + service_id, {
         params: {
             api_token: $scope.api_token
         }
     }).success(function(response) {
-        $scope.services = response.data;
+        $scope.service = response;
+        $scope.newticket.service_id = response.id;
     }).error(function(response) {
         console.log('error');
     });
@@ -42,7 +46,7 @@ Ticketisy.controller('NewTicketController', function($scope, $http, $state) {
 
     $scope.save = function() {
         $http.post('/api/ticket', postdata).success(function(response) {
-            $state.go('tickets');
+            $state.go('servicedetails', { id: $scope.service.id });
         }).error(function(response) {
             $scope.errors = response;
         });

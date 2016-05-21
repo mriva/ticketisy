@@ -8,6 +8,8 @@ class TicketCollection extends RestCollection {
     
     protected $local_actions = [
         'user' => 'filterUser',
+        'service' => 'filterService',
+        'status' => 'filterStatus',
     ];
 
     public function __construct() {
@@ -33,6 +35,15 @@ class TicketCollection extends RestCollection {
         }
 
         $this->resource = $this->resource->where('tickets.user_id', $user->id);
+    }
+
+    public function filterService($service_id) {
+        $this->resource = $this->resource->where('service_id', $service_id);
+    }
+
+    public function filterStatus($status) {
+        $values = explode(',', $status);
+        $this->resource = $this->resource->whereIn('status', $values);
     }
 
 }

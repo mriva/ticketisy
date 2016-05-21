@@ -11,10 +11,14 @@ class Service extends Model
         'user_id', 'product_id', 'name'
     ];
 
-    protected $with = ['product'];
+    protected $with = ['product', 'user'];
 
     public function product() {
         return $this->belongsTo('App\Product');
+    }
+
+    public function user() {
+        return $this->belongsTo('App\User');
     }
 
 }

@@ -1,0 +1,29 @@
+<div class="col-md-10 col-md-offset-1">
+    <div class="panel panel-default">
+        <div class="panel-heading">Servizio {{service.product.title}}</div>
+
+        <div class="panel-body">
+            <h4>Dettagli generali</h4>
+            <ul>
+                <li><b>Data attivazione:</b> {{service.created_at | dateTimeEU}}</li>
+                <li><b>Nome:</b> {{service.name}}</li>
+                <li><b>Proprietario:</b> {{service.user.name}} &lt;{{service.user.email}}&gt;</li>
+            </ul>
+
+            <h4>Ticket aperti</h4>
+            <ng-include src="'views/partial-tickettable.html'"></ng-include>
+
+            <div class="text-center"><a class="btn btn-primary" href="#/newticket/{{service.id}}">Nuovo ticket</a></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="create">
+<p><b>Creazione ticket</b></p>
+</script>
+
+<script type="text/ng-template" id="comment">
+<p><b>Nuovo commento:</b></p>
+<div style="white-space: pre-line">{{event.value.description}}</div>
+</script>
+

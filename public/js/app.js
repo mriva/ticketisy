@@ -16,13 +16,18 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
             templateUrl: 'views/newservice.html',
             controller: 'NewServiceController'
         })
+        .state('servicedetails', {
+            url: '/service/:id',
+            templateUrl: 'views/servicedetails.html',
+            controller: 'ServiceDetailsController'
+        })
         .state('tickets', {
             url: '/tickets',
             templateUrl: 'views/tickets.html',
             controller: 'TicketsController'
         })
         .state('newticket', {
-            url: '/newticket',
+            url: '/newticket/:service_id',
             templateUrl: 'views/newticket.html',
             controller: 'NewTicketController'
         })
@@ -37,7 +42,7 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
         if (raw_date == '0000-00-00 00:00:00') {
             return 'da confermare';
         } else {
-            return moment(raw_date).format('DD/MM/YYYY - HH:mm');
+            return moment(raw_date).format('DD/MM/YYYY HH:mm');
         }
     };
 })
@@ -93,10 +98,32 @@ Ticketisy.controller('NewServiceController', function($scope, $http, $state) {
     }
 });
 
+Ticketisy.controller('ServiceDetailsController', function($scope, $http, $stateParams) {
+    var service_id = $stateParams.id
+
+    $http.get('/api/service/' + service_id, {
+        params: {
+            api_token: $scope.api_token
+        }
+    }).success(function(response) {
+        $scope.service = response;
+    });
+
+    $http.get('/api/ticket', {
+        params: {
+            api_token: $scope.api_token,
+            service: service_id,
+        }
+    }).success(function(response) {
+        $scope.tickets = response.data;
+    });
+});
+
 Ticketisy.controller('TicketsController', function($scope, $http) {
     $http.get('/api/ticket', {
         params: {
-            api_token: $scope.api_token
+            api_token: $scope.api_token,
+            status: 'pending,assigned'
         }
     }).success(function(response) {
         $scope.tickets = response.data;
@@ -106,18 +133,21 @@ Ticketisy.controller('TicketsController', function($scope, $http) {
     });
 });
 
-Ticketisy.controller('NewTicketController', function($scope, $http, $state) {
+Ticketisy.controller('NewTicketController', function($scope, $http, $state, $stateParams) {
+    var service_id = $stateParams.service_id;
+
     $scope.newticket = {
         priority: 'normal',
     };
     $scope.errors = {};
     
-    $http.get('/api/service', {
+    $http.get('/api/service/' + service_id, {
         params: {
             api_token: $scope.api_token
         }
     }).success(function(response) {
-        $scope.services = response.data;
+        $scope.service = response;
+        $scope.newticket.service_id = response.id;
     }).error(function(response) {
         console.log('error');
     });
@@ -137,7 +167,7 @@ Ticketisy.controller('NewTicketController', function($scope, $http, $state) {
 
     $scope.save = function() {
         $http.post('/api/ticket', postdata).success(function(response) {
-            $state.go('tickets');
+            $state.go('servicedetails', { id: $scope.service.id });
         }).error(function(response) {
             $scope.errors = response;
         });

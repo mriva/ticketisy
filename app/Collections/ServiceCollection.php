@@ -12,7 +12,7 @@ class ServiceCollection extends RestCollection {
 
     public function __construct() {
         $this->resource = DB::table('services')
-            ->select('services.*', 'products.*', DB::raw('COUNT(tickets.id) AS open_tickets'))
+            ->select('services.*', 'products.title', 'products.description', DB::raw('COUNT(tickets.id) AS open_tickets'))
             ->join('products', 'services.product_id', '=', 'products.id')
             ->leftJoin('tickets', 'tickets.service_id', '=', 'services.id')
             ->groupBy('services.id');
