@@ -11,7 +11,7 @@ class Ticket extends Model
         'user_id', 'service_id', 'department_id', 'priority', 'title'
     ];
 
-    protected $with = ['user', 'service', 'department', 'events'];
+    protected $with = ['department', 'user', 'technician', 'service', 'events'];
 
     public function events() {
         return $this->hasMany('App\TicketEvent');
@@ -19,6 +19,10 @@ class Ticket extends Model
 
     public function user() {
         return $this->belongsTo('App\User');
+    }
+
+    public function technician() {
+        return $this->belongsTo('App\User', 'technician_id');
     }
 
     public function service() {

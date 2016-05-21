@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Events\TicketActionCreate;
+use App\Events\TicketActionComment;
 
 class TicketEvent extends Model
 {
@@ -36,7 +38,10 @@ class TicketEvent extends Model
             $value = null;
         }
 
-        $model->process($value);
+        $event = $model->process($value);
+        $model->save();
+
+        event(new $event($model));
 
         return $model;
     }
@@ -45,27 +50,49 @@ class TicketEvent extends Model
         $method = "action_{$this->action}";
 
         if (method_exists($this, $method)) {
-            $this->$method($value);
+            $event = $this->$method($value);
         }
+
+        return $event;
     }
 
     private function action_create($value) {
-        echo "EVENT: create\n";
+        return TicketActionCreate::class;
     }
-    private function action_comment($value) {
-        echo "EVENT: comment\n";
 
+    private function action_comment($value) {
         $this->value = [
             'description' => $value,
         ];
-    }
-    private function action_status($value) {
-        echo "EVENT: status change\n";
 
+        return TicketActionComment::class;
+    }
+
+    public function action_priority($value) {
+        $this->value = [
+            'old' => $this->ticket->priority,
+            'new' => $value,
+        ];
+
+        return TicketActionPriority::class;
+    }
+
+    private function action_status($value) {
         $this->value = [
             'old' => $this->ticket->status,
             'new' => $value,
         ];
+
+        return TicketActionStatus::class;
+    }
+
+    private function action_assignee($value) {
+        $this->value = [
+            'old' => $this->ticket->technician_id,
+            'new' => $value,
+        ];
+
+        return TicketActionAssignee::class;
     }
 
 }

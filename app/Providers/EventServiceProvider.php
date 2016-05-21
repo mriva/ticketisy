@@ -13,9 +13,23 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
-            'App\Listeners\EventListener',
+        // 'App\Events\SomeEvent' => [
+            // 'App\Listeners\EventListener',
+        // ],
+        'App\Events\TicketActionCreate' => [
         ],
+        'App\Events\TicketActionComment' => [
+        ],
+        'App\Events\TicketActionPriority' => [
+        ],
+        'App\Events\TicketActionStatus' => [
+        ],
+        'App\Events\TicketActionAssignee' => [
+        ],
+    ];
+
+    protected $subscribe = [
+        'App\Listeners\NotifyTicketAction',
     ];
 
     /**

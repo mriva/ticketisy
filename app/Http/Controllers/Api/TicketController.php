@@ -73,9 +73,10 @@ class TicketController extends RestController
             'ticket_id' => $ticket->id,
             'actor_id'  => $this->user->id,
             'action'    => 'comment',
-            'value' => [
-                'description' => $data['description'],
-            ]
+            'value'     => $data['description'],
+            // 'value' => [
+                // 'description' => $data['description'],
+            // ]
         ]);
 
         return [

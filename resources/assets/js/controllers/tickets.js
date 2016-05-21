@@ -54,7 +54,7 @@ Ticketisy.controller('TicketDetailsController', function($scope, $http, $statePa
     $scope.comment_open = false;
     $scope.newcomment = '';
 
-    $scope.get_tickets = function() {
+    $scope.get_ticket = function() {
         $http.get('/api/ticket/' + ticket_id, {
             params: {
                 api_token: $scope.api_token
@@ -76,4 +76,6 @@ Ticketisy.controller('TicketDetailsController', function($scope, $http, $statePa
     $scope.comment_save = function() {
         
     }
+
+    $scope.get_ticket();
 });
