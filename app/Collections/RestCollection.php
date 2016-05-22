@@ -22,7 +22,7 @@ class RestCollection {
 
         $instance->filters = $filters;
         $instance->filter();
-        
+
         $count = $instance->resource->count();
 
         $data = $instance->resource->get();

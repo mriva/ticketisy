@@ -19,5 +19,9 @@ class RestController extends Controller
         $this->user = Auth::guard('api')->user();
     }
 
+    public function getRedirectUrl() {
+        return url('/unauthorized');
+    }
+
 }
 

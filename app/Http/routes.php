@@ -15,6 +15,10 @@ Route::auth();
 
 Route::get('/', 'HomeController@index');
 
+Route::get('/unauthorized', function() {
+    return response('Unauthorized request');
+});
+
 Route::resource('/api/service', 'Api\ServiceController');
 Route::resource('/api/product', 'Api\ProductController');
 Route::resource('/api/ticket', 'Api\TicketController');

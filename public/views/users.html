@@ -3,7 +3,25 @@
         <div class="panel-heading">Elenco utenti</div>
 
         <div class="panel-body">
-            UTENTI
+            <table class="table">
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Servizi attivati</th>
+                    <th>Ticket aperti</th>
+                    <th>Data registrazione</th>
+                    <th></th>
+                </tr>
+
+                <tr ng-repeat="user in users">
+                    <td>{{user.name}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.services_count}}</td>
+                    <td>{{user.tickets_count}}</td>
+                    <td>{{user.created_at | dateTimeEU}}</td>
+                    <td class="text-right"><a href="/#service/{{service.id}}" class="btn btn-xs btn-danger">gestisci</a></td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
