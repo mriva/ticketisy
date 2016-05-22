@@ -3,22 +3,7 @@
         <div class="panel-heading">Servizi attivi</div>
 
         <div class="panel-body">
-            <table class="table" ng-show="services.length">
-                <tr>
-                    <th>Nome</th>
-                    <th>Tipologia</th>
-                    <th>Attivazione</th>
-                    <th>Ticket aperti</th>
-                    <th></th>
-                </tr>
-                <tr ng-repeat="service in services">
-                    <td>{{service.name}}</td>
-                    <td>{{service.title}}</td>
-                    <td>{{service.created_at | dateTimeEU}}</td>
-                    <td>{{service.open_tickets}}</td>
-                    <td class="text-right"><a href="/#service/{{service.id}}" class="btn btn-xs btn-danger">gestisci</a></td>
-                </tr>
-            </table>
+            <ng-include src="'views/partial-servicetable.html'"></ng-include>
             <div ng-show="empty" class="form-group">Non ci sono servizi attivi</div>
 
             <a ui-sref="newservice" href="/#newservice" class="btn btn-success">Attiva servizio</a>

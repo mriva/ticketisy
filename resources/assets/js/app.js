@@ -50,7 +50,25 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
             url: '/users',
             templateUrl: 'views/users.html',
             controller: 'UsersController'
+        })
+        .state('userdetails', {
+            url: '/user/:id',
+            templateUrl: 'views/userdetails.html',
+            controller: 'UserDetailsController'
         });
+})
+.config(function($httpProvider) {
+    $httpProvider.interceptors.push(function ($q) {
+        return {
+            'request': function(config) {
+                if (config.url.match(/^\/api\//)) {
+                    config.url = config.url + '?api_token=' + App.api_token;
+                }
+                return config;
+            }
+
+        }
+    });  
 })
 .filter('dateTimeEU', function() {
     return function(raw_date) {

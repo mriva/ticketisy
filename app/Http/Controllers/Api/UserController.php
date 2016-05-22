@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Collections\UserCollection;
+use App\User;
 
 class UserController extends RestController
 {
@@ -65,7 +66,9 @@ class UserController extends RestController
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+
+        return $user;
     }
 
     /**

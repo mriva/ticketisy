@@ -1,0 +1,16 @@
+            <table class="table" ng-show="services.length">
+                <tr>
+                    <th>Nome</th>
+                    <th>Tipologia</th>
+                    <th>Attivazione</th>
+                    <th>Ticket aperti</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="service in services">
+                    <td>{{service.name}}</td>
+                    <td>{{service.title}}</td>
+                    <td>{{service.created_at | dateTimeEU}}</td>
+                    <td>{{service.open_tickets}}</td>
+                    <td class="text-right"><a href="/#service/{{service.id}}" class="btn btn-xs btn-danger">gestisci</a></td>
+                </tr>
+            </table>
