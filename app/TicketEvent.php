@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\TicketActionCreate;
 use App\Events\TicketActionComment;
+use App\Events\TicketActionAssignee;
 
 class TicketEvent extends Model
 {
@@ -91,6 +92,9 @@ class TicketEvent extends Model
             'old' => $this->ticket->technician_id,
             'new' => $value,
         ];
+
+        $this->ticket->technician_id = $value;
+        $this->ticket->save();
 
         return TicketActionAssignee::class;
     }

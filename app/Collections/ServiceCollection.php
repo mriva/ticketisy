@@ -21,7 +21,7 @@ class ServiceCollection extends RestCollection {
     }
 
     protected function filterUser($user) {
-        if ($user->role == 'admin') {
+        if ($user == null) {
             return;
         }
 

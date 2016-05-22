@@ -28,10 +28,10 @@
 </head>
 @if (Auth::user())
     <body id="app-layout" ng-init="role = '{{Auth::user()->role}}'; api_token = '{{Auth::user()->api_token}}'">
-    <script>var App = { api_token: '{{Auth::user()->api_token}}' }</script>
+    <script>var App = { api_token: '{{Auth::user()->api_token}}', user_id: {{Auth::user()->id}} }</script>
 @else
     <body id="app-layout" ng-init="role = 'guest'">
-    <script>var App = { api_token: '' }</script>
+    <script>var App = { api_token: '', user_id: 0 }</script>
 @endif
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">

@@ -19,8 +19,10 @@ class TicketController extends RestController
      */
     public function index(Request $request)
     {
-        $filters = $request->all();
-        $filters['user'] = $this->user;
+        $filters = $request->except('user');
+
+        $requested_user = $request->input('user');
+        $filters['user'] = $this->getFilterUser($requested_user);
 
         $services = TicketCollection::get($filters);
         return response()->json($services);

@@ -30,7 +30,7 @@ class TicketCollection extends RestCollection {
     }
 
     protected function filterUser($user) {
-        if ($user->role == 'admin') {
+        if ($user == null) {
             return;
         }
 
@@ -45,16 +45,16 @@ class TicketCollection extends RestCollection {
         $this->resource = $this->resource->where('tickets.user_id', $user->id);
     }
 
-    public function filterService($service_id) {
+    protected function filterService($service_id) {
         $this->resource = $this->resource->where('service_id', $service_id);
     }
 
-    public function filterStatus($status) {
+    protected function filterStatus($status) {
         $values = explode(',', $status);
         $this->resource = $this->resource->whereIn('status', $values);
     }
 
-    public function filterTechnician($value) {
+    protected function filterTechnician($value) {
         if ($value == 'me') {
             $user = Auth::guard('api')->user();
             $this->resource = $this->resource->where('technician_id', $user->id);

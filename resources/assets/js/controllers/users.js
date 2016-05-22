@@ -15,5 +15,20 @@ Ticketisy.controller('UserDetailsController', function($scope, $http, $statePara
         $scope.user = response;
     });
 
+    $http.get('/api/service', {
+        params: {
+            user: user_id
+        }
+    }).success(function(response) {
+        $scope.services = response.data;
+    });
+
+    $http.get('/api/ticket', {
+        params: {
+            user: user_id
+        }
+    }).success(function(response) {
+        $scope.tickets = response.data;
+    });
 
 });

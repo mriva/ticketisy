@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use App\User;
 
 class RestController extends Controller
 {
@@ -22,6 +23,19 @@ class RestController extends Controller
     public function getRedirectUrl() {
         return url('/unauthorized');
     }
+
+    protected function getFilterUser($requested_user) {
+        if ($this->user->role == 'user') {
+            return $this->user;
+        }
+
+        if ($requested_user) {
+            return User::find($requested_user);
+        } else {
+            return null;
+        }
+    }
+
 
 }
 

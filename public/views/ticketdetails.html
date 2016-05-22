@@ -1,4 +1,4 @@
-<div class="col-md-10 col-md-offset-1">
+<div class="col-md-12">
     <div class="panel panel-default">
         <div class="panel-heading">Dettagli ticket #{{ticket.id}}</div>
 
@@ -11,7 +11,21 @@
                 <li><b>Dipartimento:</b> {{ticket.department.name}}</li>
                 <li><b>Servizio:</b> {{ticket.service.name}}</li>
                 <li><b>Prodotto:</b> {{ticket.service.product.title}}</li>
+                <li ng-show="ticket.technician_id"><b>Operatore:</b> {{ticket.technician.name}} &lt;{{ticket.technician.email}}&gt;</li>
+                <li ng-hide="ticket.technician_id"><b>Operatore:</b> <i>non assegnato</i></li>
             </ul>
+
+            <div class="row">
+                <div class="form-group form-inline col-md-6" ng-hide="role == 'technician' && ticket.technician_id">
+                    <label>Assegna operatore</label><br>
+                    <select ng-model="newtechnician" class="form-control" style="width: 300px">
+                        <option value="">nessun operatore</option>
+                        <option ng-show="role == 'technician'" value="me">assegna a me</option>
+                        <option ng-repeat="technician in technicians" value="{{technician.id}}">{{technician.name}}</option>
+                    </select>
+                    <button ng-show="newtechnician" ng-click="assign()" class="btn btn-success btn-sm">conferma</button>
+                </div>
+            </div>
 
             <h4>Eventi</h4>
             <ul class="list-unstyled ticket-events">
@@ -32,6 +46,7 @@
                 </div>
 
                 <button ng-hide="comment_open" class="btn btn-primary" ng-click="comment()">Aggiungi commento</button>
+                <button ng-show="ticket.technician_id == App.user_id" class="btn btn-danger" ng-click="close()">Chiudi</button>
             </div>
         </div>
     </div>
@@ -44,4 +59,16 @@
 <script type="text/ng-template" id="comment">
 <p><b>Nuovo commento:</b></p>
 <div style="white-space: pre-line">{{event.value.description}}</div>
+</script>
+
+<script type="text/ng-template" id="priority">
+<p><b>Cambio priorità:</b></p>
+</script>
+
+<script type="text/ng-template" id="status">
+<p><b>Cambio stato:</b></p>
+</script>
+
+<script type="text/ng-template" id="assignee">
+<p><b>Cambio operatore:</b> il ticket è stato assegnato all'operatore con codice #OP_{{event.value.new}}</p>
 </script>

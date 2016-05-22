@@ -67,6 +67,7 @@ Ticketisy.controller('TicketDetailsController', function($scope, $http, $statePa
     var ticket_id = $stateParams.id;
     $scope.comment_open = false;
     $scope.newcomment = '';
+    $scope.App = App;
 
     $scope.get_ticket = function() {
         $http.get('/api/ticket/' + ticket_id, {
@@ -75,6 +76,29 @@ Ticketisy.controller('TicketDetailsController', function($scope, $http, $statePa
             }
         }).success(function(response) {
             $scope.ticket = response;
+        });
+    }
+
+    if ($scope.role == 'admin') {
+        $http.get('/api/user', {
+            params: {
+                role: 'technician'
+            }
+        }).success(function(response) {
+            $scope.technicians = response;
+        });
+    }
+
+    $scope.assign = function() {
+        var postdata = {
+            ticket_id: $scope.ticket.id,
+            action: 'assignee',
+            value: $scope.newtechnician
+        }
+
+        $http.post('/api/ticketevent', postdata).success(function(response) {
+            $scope.newtechnician = null;
+            $scope.get_ticket();
         });
     }
 

@@ -32,7 +32,6 @@ class UserController extends RestController
         
         $filters = $request->all();
 
-
         $users = UserCollection::get($filters);
         return response()->json($users);
     }

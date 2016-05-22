@@ -32,6 +32,10 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         $gate->define('create-ticket', function($user, $request) {
+            if ($user->role == 'admin' || $user->role == 'technician') {
+                return true;
+            }
+
             $service = DB::table('services')->find($request->service_id);
 
             return $service->user_id == $user->id;

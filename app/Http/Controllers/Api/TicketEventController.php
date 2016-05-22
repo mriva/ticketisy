@@ -45,6 +45,9 @@ class TicketEventController extends RestController
 
         $data = $request->all();
         $data['actor_id'] = $this->user->id;
+        if ($request->input('value') == 'me') {
+            $data['value'] = $this->user->id;
+        }
 
         TicketEvent::create($data);
 
