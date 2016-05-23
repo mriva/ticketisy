@@ -17,14 +17,16 @@
 
             <div class="row">
                 <div class="form-group form-inline col-md-6" ng-hide="role == 'technician' && ticket.technician_id">
-                    <label>Assegna operatore</label><br>
+                    <label>Assegna nuovo operatore</label><br>
                     <select ng-model="newtechnician" class="form-control" style="width: 300px">
-                        <option value="">nessun operatore</option>
+                        <option value="">- seleziona -</option>
                         <option ng-show="role == 'technician'" value="me">assegna a me</option>
                         <option ng-repeat="technician in technicians" value="{{technician.id}}">{{technician.name}}</option>
                     </select>
                     <button ng-show="newtechnician" ng-click="assign()" class="btn btn-success btn-sm">conferma</button>
                 </div>
+            </div>
+            <div class="row">
                 <div class="form-group form-inline col-md-6" ng-hide="role == 'user' || ticket.status == 'closed'">
                     <label>Modifica priorità</label><br>
                     <select ng-model="newpriority" class="form-control" style="width: 300px">
@@ -65,7 +67,7 @@
 
                 <div ng-hide="comment_open || close_box || ticket.status == 'closed'">
                     <button class="btn btn-primary" ng-click="comment()">Aggiungi commento</button>
-                    <button ng-show="ticket.technician_id == App.user_id" class="btn btn-danger" ng-click="close()">Chiudi</button>
+                    <button ng-show="role == 'admin' || ticket.technician_id == App.user_id" class="btn btn-danger" ng-click="close()">Chiudi</button>
                 </div>
             </div>
         </div>

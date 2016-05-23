@@ -1,0 +1,23 @@
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">Dettagli operatore</div>
+
+        <div class="panel-body">
+            <h4>Dettagli generali</h4>
+            <ul>
+                <li><b>Data registrazione:</b> {{user.created_at | dateTimeEU}}</li>
+                <li><b>Nome:</b> {{user.name}}</li>
+                <li><b>Email:</b> {{user.email}}</li>
+            </ul>
+
+            <h4>Reparti</h4>
+            <ul>
+                <li ng-repeat="department in departments">{{department.name}}</li>
+            </ul>
+
+            <h4>Ticket aperti</h4>
+            <ng-include src="'views/partial-tickettable.html'"></ng-include>
+        </div>
+    </div>
+</div>
+

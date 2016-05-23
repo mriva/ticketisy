@@ -1,0 +1,28 @@
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">Operatori</div>
+
+        <div class="panel-body">
+            <table class="table">
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Ticket aperti</th>
+                    <th>Ticket totali</th>
+                    <th>Data registrazione</th>
+                    <th></th>
+                </tr>
+
+                <tr ng-repeat="user in users">
+                    <td>{{user.name}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.tickets_count}}</td>
+                    <td>{{user.tickets_total_count}}</td>
+                    <td>{{user.created_at | dateTimeEU}}</td>
+                    <td class="text-right"><a href="#/technician/{{user.id}}" class="btn btn-xs btn-primary">gestisci</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+

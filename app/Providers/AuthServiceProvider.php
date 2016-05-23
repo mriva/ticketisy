@@ -56,10 +56,6 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         $gate->define('list-users', function($user, $role) {
-            if ($user->role == 'admin') {
-                return true;
-            }
-
             if ($user->role == 'technician') {
                 return !$role || $role == 'user';
             }

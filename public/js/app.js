@@ -31,6 +31,11 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
             templateUrl: 'views/pending-tickets.html',
             controller: 'PendingTicketsController'
         })
+        .state('assignedtickets', {
+            url: '/assigned-tickets',
+            templateUrl: 'views/assigned-tickets.html',
+            controller: 'AssignedTicketsController'
+        })
         .state('newticket', {
             url: '/newticket/:service_id',
             templateUrl: 'views/newticket.html',
@@ -55,6 +60,16 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
             url: '/user/:id',
             templateUrl: 'views/userdetails.html',
             controller: 'UserDetailsController'
+        })
+        .state('technicians', {
+            url: '/technicians',
+            templateUrl: 'views/technicians.html',
+            controller: 'TechniciansController'
+        })
+        .state('techniciandetails', {
+            url: '/technician/:id',
+            templateUrl: 'views/techniciandetails.html',
+            controller: 'TechnicianDetailsController'
         });
 })
 .config(function($httpProvider) {
@@ -152,10 +167,43 @@ Ticketisy.controller('ServiceDetailsController', function($scope, $http, $stateP
     });
 });
 
+Ticketisy.controller('TechniciansController', function($scope, $http) {
+    $http.get('/api/user', {
+        params: {
+            role: 'technician',
+        }
+    }).success(function(response) {
+        $scope.users = response.data;
+    });
+});
+
+Ticketisy.controller('TechnicianDetailsController', function($scope, $http, $stateParams) {
+    var user_id = $stateParams.id;
+
+    $http.get('/api/user/' + user_id).success(function(response) {
+        $scope.user = response;
+    });
+
+    $http.get('/api/department', {
+        params: {
+            technician: user_id
+        }
+    }).success(function(response) {
+        $scope.departments = response.data;
+    });
+
+    $http.get('/api/ticket', {
+        params: {
+            technician: user_id
+        }
+    }).success(function(response) {
+        $scope.tickets = response.data;
+    });
+});
+
 Ticketisy.controller('TicketsController', function($scope, $http) {
     $http.get('/api/ticket', {
         params: {
-            api_token: $scope.api_token,
             status: 'pending,assigned'
         }
     }).success(function(response) {
@@ -167,8 +215,18 @@ Ticketisy.controller('TicketsController', function($scope, $http) {
 Ticketisy.controller('PendingTicketsController', function($scope, $http) {
     $http.get('/api/ticket', {
         params: {
-            api_token: $scope.api_token,
             status: 'pending'
+        }
+    }).success(function(response) {
+        $scope.tickets = response.data;
+        $scope.empty = !response.data.length;
+    });
+});
+
+Ticketisy.controller('AssignedTicketsController', function($scope, $http) {
+    $http.get('/api/ticket', {
+        params: {
+            status: 'assigned'
         }
     }).success(function(response) {
         $scope.tickets = response.data;
@@ -184,22 +242,14 @@ Ticketisy.controller('NewTicketController', function($scope, $http, $state, $sta
     };
     $scope.errors = {};
     
-    $http.get('/api/service/' + service_id, {
-        params: {
-            api_token: $scope.api_token
-        }
-    }).success(function(response) {
+    $http.get('/api/service/' + service_id).success(function(response) {
         $scope.service = response;
         $scope.newticket.service_id = response.id;
     }).error(function(response) {
         console.log('error');
     });
 
-    $http.get('/api/department', {
-        params: {
-            api_token: $scope.api_token
-        }
-    }).success(function(response) {
+    $http.get('/api/department').success(function(response) {
         $scope.departments = response.data;
     }).error(function(response) {
         console.log('error');
@@ -230,18 +280,21 @@ Ticketisy.controller('TicketDetailsController', function($scope, $http, $statePa
             }
         }).success(function(response) {
             $scope.ticket = response;
-            console.log($scope.priority_changed);
+            $scope.get_technicians();
         });
     }
 
-    if ($scope.role == 'admin') {
-        $http.get('/api/user', {
-            params: {
-                role: 'technician'
-            }
-        }).success(function(response) {
-            $scope.technicians = response;
-        });
+    $scope.get_technicians = function() {
+        if ($scope.role == 'admin') {
+            $http.get('/api/user', {
+                params: {
+                    role: 'technician',
+                    department: $scope.ticket.department_id
+                }
+            }).success(function(response) {
+                $scope.technicians = response.data;
+            });
+        }
     }
 
     $scope.assign = function() {

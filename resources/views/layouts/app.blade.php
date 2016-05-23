@@ -62,6 +62,11 @@
                             <li><a href="{{ url('/#my-tickets') }}">Miei ticket</a></li>
                             <li><a href="{{ url('/#pending-tickets') }}">Ticket in attesa</a></li>
                             <li><a href="{{ url('/#users') }}">Utenti</a></li>
+                        @elseif (Auth::user()->role == 'admin')
+                            <li><a href="{{ url('/#pending-tickets') }}">Ticket in attesa</a></li>
+                            <li><a href="{{ url('/#assigned-tickets') }}">Ticket in lavorazione</a></li>
+                            <li><a href="{{ url('/#users') }}">Utenti</a></li>
+                            <li><a href="{{ url('/#technicians') }}">Operatori</a></li>
                         @endif
                     @endif
                 </ul>

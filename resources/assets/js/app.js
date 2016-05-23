@@ -31,6 +31,11 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
             templateUrl: 'views/pending-tickets.html',
             controller: 'PendingTicketsController'
         })
+        .state('assignedtickets', {
+            url: '/assigned-tickets',
+            templateUrl: 'views/assigned-tickets.html',
+            controller: 'AssignedTicketsController'
+        })
         .state('newticket', {
             url: '/newticket/:service_id',
             templateUrl: 'views/newticket.html',
@@ -55,6 +60,16 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
             url: '/user/:id',
             templateUrl: 'views/userdetails.html',
             controller: 'UserDetailsController'
+        })
+        .state('technicians', {
+            url: '/technicians',
+            templateUrl: 'views/technicians.html',
+            controller: 'TechniciansController'
+        })
+        .state('techniciandetails', {
+            url: '/technician/:id',
+            templateUrl: 'views/techniciandetails.html',
+            controller: 'TechnicianDetailsController'
         });
 })
 .config(function($httpProvider) {
