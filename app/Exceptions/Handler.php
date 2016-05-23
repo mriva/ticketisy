@@ -49,6 +49,16 @@ class Handler extends ExceptionHandler
             return $e->render();
         }
 
+        if ($request->wantsJson()) {
+            $message = [
+                'exception' => basename(get_class($e)),
+                'file'      => $e->getFile(),
+                'line'      => $e->getLine(),
+                'message'   => $e->getMessage(),
+            ];
+            return response()->json($message, 500);
+        }
+
         return parent::render($request, $e);
     }
 }

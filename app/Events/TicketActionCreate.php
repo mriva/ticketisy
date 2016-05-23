@@ -15,9 +15,9 @@ class TicketActionCreate extends Event
      *
      * @return void
      */
-    public function __construct($action)
+    public function __construct($ticket_event)
     {
-        $this->action = $action;
+        $this->ticket_event = $ticket_event;
     }
 
     /**

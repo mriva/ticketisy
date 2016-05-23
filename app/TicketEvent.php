@@ -77,9 +77,6 @@ class TicketEvent extends Model
             'new' => $value,
         ];
 
-        $this->ticket->priority = $value;
-        $this->ticket->save();
-
         return TicketActionPriority::class;
     }
 
@@ -87,9 +84,6 @@ class TicketEvent extends Model
         $this->value = [
             'message' => $value,
         ];
-
-        $this->ticket->status = 'closed';
-        $this->ticket->save();
 
         return TicketActionClose::class;
     }
@@ -99,10 +93,6 @@ class TicketEvent extends Model
             'old' => $this->ticket->technician_id,
             'new' => $value,
         ];
-
-        $this->ticket->technician_id = $value;
-        $this->ticket->status = 'assigned';
-        $this->ticket->save();
 
         return TicketActionAssignee::class;
     }

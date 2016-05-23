@@ -144,6 +144,7 @@ Ticketisy.controller('TicketDetailsController', function($scope, $http, $statePa
         }
 
         $http.post('/api/ticketevent', postdata).success(function(response) {
+            $scope.newcomment = '';
             $scope.comment_open = false;
             $scope.get_ticket();
         });
@@ -166,7 +167,8 @@ Ticketisy.controller('TicketDetailsController', function($scope, $http, $statePa
         }
 
         $http.post('/api/ticketevent', postdata).success(function(response) {
-            $scope.comment_open = false;
+            $scope.closemessage = '';
+            $scope.close_box = false;
             $scope.get_ticket();
         });
     }

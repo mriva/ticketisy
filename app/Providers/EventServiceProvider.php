@@ -18,10 +18,13 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\TicketActionComment' => [
         ],
         'App\Events\TicketActionPriority' => [
+            'App\Listeners\UpdateTicketPriority',
         ],
         'App\Events\TicketActionClose' => [
+            'App\Listeners\UpdateTicketClose',
         ],
         'App\Events\TicketActionAssignee' => [
+            'App\Listeners\UpdateTicketAssignee',
         ],
     ];
 

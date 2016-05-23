@@ -15,9 +15,9 @@ class TicketActionPriority extends Event
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($ticket_event)
     {
-        //
+        $this->ticket_event = $ticket_event;
     }
 
     /**
