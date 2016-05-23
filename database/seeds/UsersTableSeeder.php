@@ -24,7 +24,9 @@ class UsersTableSeeder extends Seeder
             'api_token' => str_random(60),
         ]);
 
-        for ($n = 1; $n <= 30; $n++) {
+        DB::table('users_departments')->truncate();
+
+        for ($n = 1; $n <= 10; $n++) {
             $tech = User::create([
                 'name'      => "{$faker->firstName} {$faker->lastName}",
                 'email'     => "tech_{$n}@ticketisy.com",
@@ -36,7 +38,7 @@ class UsersTableSeeder extends Seeder
             $rand = range(1, 6);
             shuffle($rand);
 
-            for ($i = 1; $i <= 2; $i++) {
+            for ($i = 1; $i <= 3; $i++) {
                 $department_id = array_pop($rand);
                 DB::table('users_departments')->insert([
                     'user_id'       => $tech->id,

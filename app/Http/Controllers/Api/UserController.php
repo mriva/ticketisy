@@ -44,7 +44,26 @@ class UserController extends RestController
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name'     => 'required|max:255',
+            'email'    => 'required|email|max:255|unique:users',
+            'password' => 'required|min:4|confirmed',
+            'role'     => 'required|in:technician',
+        ]);
+
+        $data = $request->all();
+
+        User::create([
+            'name'      => $data['name'],
+            'email'     => $data['email'],
+            'password'  => bcrypt($data['password']),
+            'role'      => $data['role'],
+            'api_token' => str_random(60),
+        ]);
+
+        return [
+            'status' => 'ok',
+        ];
     }
 
     /**

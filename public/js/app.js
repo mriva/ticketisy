@@ -70,6 +70,11 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
             url: '/technician/:id',
             templateUrl: 'views/techniciandetails.html',
             controller: 'TechnicianDetailsController'
+        })
+        .state('newtechnician', {
+            url: '/newtechnician',
+            templateUrl: 'views/newtechnician.html',
+            controller: 'NewTechnicianController'
         });
 })
 .config(function($httpProvider) {
@@ -77,7 +82,11 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
         return {
             'request': function(config) {
                 if (config.url.match(/^\/api\//)) {
-                    config.url = config.url + '?api_token=' + App.api_token;
+                    // config.url = config.url + '?api_token=' + App.api_token;
+                    if (typeof(config.params) === 'undefined') {
+                        config.params = {};
+                    }
+                    config.params.api_token = App.api_token;
                 }
                 return config;
             }
@@ -199,6 +208,28 @@ Ticketisy.controller('TechnicianDetailsController', function($scope, $http, $sta
     }).success(function(response) {
         $scope.tickets = response.data;
     });
+});
+
+Ticketisy.controller('NewTechnicianController', function($scope, $http, $state) {
+    $scope.newtechnician = {};
+    $scope.errors = {};
+    $scope.checkboxes = {};
+
+    $http.get('/api/department').success(function(response) {
+        $scope.departments = response.data;
+    });
+
+    $scope.save = function() {
+        var postdata = $scope.newtechnician;
+        postdata.role = 'technician';
+        postdata.departments = _.keys($scope.checkboxes);
+
+        $http.post('/api/user', postdata).success(function(response) {
+            $state.go('technicians');
+        }).error(function(response) {
+            $scope.errors = response;
+        });
+    }
 });
 
 Ticketisy.controller('TicketsController', function($scope, $http) {

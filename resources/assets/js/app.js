@@ -70,6 +70,11 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
             url: '/technician/:id',
             templateUrl: 'views/techniciandetails.html',
             controller: 'TechnicianDetailsController'
+        })
+        .state('newtechnician', {
+            url: '/newtechnician',
+            templateUrl: 'views/newtechnician.html',
+            controller: 'NewTechnicianController'
         });
 })
 .config(function($httpProvider) {
@@ -77,7 +82,11 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
         return {
             'request': function(config) {
                 if (config.url.match(/^\/api\//)) {
-                    config.url = config.url + '?api_token=' + App.api_token;
+                    // config.url = config.url + '?api_token=' + App.api_token;
+                    if (typeof(config.params) === 'undefined') {
+                        config.params = {};
+                    }
+                    config.params.api_token = App.api_token;
                 }
                 return config;
             }

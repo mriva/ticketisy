@@ -4,9 +4,10 @@
                     <th>Reparto</th>
                     <th>Titolo</th>
                     <th>Servizio</th>
-                    <th>Prodotto</th>
-                    <th>Data</th>
+                    <th>Operatore</th>
+                    <th>Priorità</th>
                     <th>Stato</th>
+                    <th>Data</th>
                     <th></th>
                 </tr>
 
@@ -15,9 +16,11 @@
                     <td>{{ticket.department}}</td>
                     <td>{{ticket.title}}</td>
                     <td>{{ticket.service_name}}</td>
-                    <td>{{ticket.product_title}}</td>
-                    <td>{{ticket.created_at | dateTimeEU}}</td>
+                    <td ng-show="ticket.technician_id">OP#{{ticket.technician_id}}</td>
+                    <td ng-hide="ticket.technician_id">N/A</td>
+                    <td>{{ticket.priority}}</td>
                     <td>{{ticket.status}}</td>
+                    <td>{{ticket.created_at | dateTimeEU}}</td>
                     <td class="text-right"><a href="#/ticket/{{ticket.id}}" class="btn btn-xs btn-success">dettagli</a></td>
                 </tr>
             </table>

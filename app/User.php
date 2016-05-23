@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -23,4 +24,22 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token', 'api_token'
     ];
+
+    public static function create(array $attributes = []) {
+        $model = new static($attributes);
+
+        $model->save();
+
+        if (!empty($attributes['departments'])) {
+            foreach ($attributes['departments'] as $department_id) {
+                DB::table('users_departments')->insert([
+                    'user_id'       => $model->id,
+                    'department_id' => $department_id,
+                ]);
+            }
+        }
+
+        return $model;
+    }
+
 }

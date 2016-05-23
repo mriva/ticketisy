@@ -31,3 +31,25 @@ Ticketisy.controller('TechnicianDetailsController', function($scope, $http, $sta
         $scope.tickets = response.data;
     });
 });
+
+Ticketisy.controller('NewTechnicianController', function($scope, $http, $state) {
+    $scope.newtechnician = {};
+    $scope.errors = {};
+    $scope.checkboxes = {};
+
+    $http.get('/api/department').success(function(response) {
+        $scope.departments = response.data;
+    });
+
+    $scope.save = function() {
+        var postdata = $scope.newtechnician;
+        postdata.role = 'technician';
+        postdata.departments = _.keys($scope.checkboxes);
+
+        $http.post('/api/user', postdata).success(function(response) {
+            $state.go('technicians');
+        }).error(function(response) {
+            $scope.errors = response;
+        });
+    }
+});

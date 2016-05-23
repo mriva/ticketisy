@@ -16,7 +16,7 @@
             </ul>
 
             <div class="row">
-                <div class="form-group form-inline col-md-6" ng-hide="role == 'technician' && ticket.technician_id">
+                <div class="form-group form-inline col-md-6" ng-hide="role == 'user' || (role == 'technician' && ticket.technician_id)">
                     <label>Assegna nuovo operatore</label><br>
                     <select ng-model="newtechnician" class="form-control" style="width: 300px">
                         <option value="">- seleziona -</option>
