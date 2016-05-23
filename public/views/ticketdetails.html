@@ -25,6 +25,15 @@
                     </select>
                     <button ng-show="newtechnician" ng-click="assign()" class="btn btn-success btn-sm">conferma</button>
                 </div>
+                <div class="form-group form-inline col-md-6" ng-hide="role == 'user' || ticket.status == 'closed'">
+                    <label>Modifica priorità</label><br>
+                    <select ng-model="newpriority" class="form-control" style="width: 300px">
+                        <option value="normal">Normale</option>
+                        <option value="urgent">Urgente</option>
+                        <option value="critical">Critica</option>
+                    </select>
+                    <button ng-show="priority_changed && newpriority != ticket.priority" ng-click="save_priority()" class="btn btn-success btn-sm">conferma</button>
+                </div>
             </div>
 
             <h4>Eventi</h4>
@@ -45,8 +54,19 @@
                     <button class="btn btn-danger" ng-click="comment_close()">Annulla</button>
                 </div>
 
-                <button ng-hide="comment_open" class="btn btn-primary" ng-click="comment()">Aggiungi commento</button>
-                <button ng-show="ticket.technician_id == App.user_id" class="btn btn-danger" ng-click="close()">Chiudi</button>
+                <div ng-show="close_box">
+                    <div class="form-group">
+                        <textarea ng-model="closemessage" class="form-control"></textarea>
+                    </div>
+
+                    <button class="btn btn-success" ng-click="close_confirm()">Conferma chiusura</button>
+                    <button class="btn btn-danger" ng-click="close_cancel()">Annulla</button>
+                </div>
+
+                <div ng-hide="comment_open || close_box || ticket.status == 'closed'">
+                    <button class="btn btn-primary" ng-click="comment()">Aggiungi commento</button>
+                    <button ng-show="ticket.technician_id == App.user_id" class="btn btn-danger" ng-click="close()">Chiudi</button>
+                </div>
             </div>
         </div>
     </div>
@@ -62,11 +82,12 @@
 </script>
 
 <script type="text/ng-template" id="priority">
-<p><b>Cambio priorità:</b></p>
+<p><b>Cambio priorità:</b> la priorità è stata modificata da <b>{{event.value.old}}</b> a <b>{{event.value.new}}</b></p>
 </script>
 
-<script type="text/ng-template" id="status">
-<p><b>Cambio stato:</b></p>
+<script type="text/ng-template" id="close">
+<p><b>Il ticket è stato chiuso con il seguente messaggio:</b></p>
+<div style="white-space: pre-line">{{event.value.message}}</div>
 </script>
 
 <script type="text/ng-template" id="assignee">

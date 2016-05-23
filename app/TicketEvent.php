@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Events\TicketActionCreate;
 use App\Events\TicketActionComment;
 use App\Events\TicketActionAssignee;
+use App\Events\TicketActionClose;
+use App\Events\TicketActionPriority;
 
 class TicketEvent extends Model
 {
@@ -69,22 +71,27 @@ class TicketEvent extends Model
         return TicketActionComment::class;
     }
 
-    public function action_priority($value) {
+    private function action_priority($value) {
         $this->value = [
             'old' => $this->ticket->priority,
             'new' => $value,
         ];
 
+        $this->ticket->priority = $value;
+        $this->ticket->save();
+
         return TicketActionPriority::class;
     }
 
-    private function action_status($value) {
+    private function action_close($value) {
         $this->value = [
-            'old' => $this->ticket->status,
-            'new' => $value,
+            'message' => $value,
         ];
 
-        return TicketActionStatus::class;
+        $this->ticket->status = 'closed';
+        $this->ticket->save();
+
+        return TicketActionClose::class;
     }
 
     private function action_assignee($value) {
@@ -94,6 +101,7 @@ class TicketEvent extends Model
         ];
 
         $this->ticket->technician_id = $value;
+        $this->ticket->status = 'assigned';
         $this->ticket->save();
 
         return TicketActionAssignee::class;

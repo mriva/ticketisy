@@ -27,6 +27,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies($gate);
 
+        $gate->before(function($user, $ability) {
+            if ($user->role == 'admin') {
+                return true;
+            }
+        });
+
         $gate->define('activate-service', function($user) {
             return $user->role == 'user';
         });
@@ -60,5 +66,40 @@ class AuthServiceProvider extends ServiceProvider
 
             return false;
         });
+
+        $gate->define('ticketevent-comment', function($user, $ticket) {
+            if ($user->role == 'user') {
+                return $user->id == $ticket->user_id;
+            }
+
+            return $user->id == $ticket->technician_id;
+        });
+
+        $gate->define('ticketevent-priority', function($user, $ticket) {
+            if ($user->role == 'user') {
+                return false;
+            }
+
+            return $user->id == $ticket->technician_id;
+        });
+
+        $gate->define('ticketevent-close', function($user, $ticket) {
+            if ($user->role == 'user') {
+                return false;
+            }
+
+            return $user->id == $ticket->technician_id;
+        });
+
+        $gate->define('ticketevent-assignee', function($user, $ticket, $request) {
+            if ($user->role == 'user') {
+                return false;
+            }
+
+            return $ticket->technician_id == 0 &&
+                ($user->id == $ticket->technician_id ||
+                 $ticket->technician_id == 'me');
+        });
+
     }
 }

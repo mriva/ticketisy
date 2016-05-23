@@ -58,6 +58,8 @@ class TicketCollection extends RestCollection {
         if ($value == 'me') {
             $user = Auth::guard('api')->user();
             $this->resource = $this->resource->where('technician_id', $user->id);
+        } else {
+            $this->resource = $this->resource->where('technician_id', $value);
         }
     }
 

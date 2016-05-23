@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\TicketEvent;
+use App\Exceptions\UnauthorizedAPIRequestException;
+use App\Ticket;
 
 class TicketEventController extends RestController
 {
@@ -21,16 +23,6 @@ class TicketEventController extends RestController
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -40,8 +32,12 @@ class TicketEventController extends RestController
     {
         $this->validate($request, [
             'ticket_id' => 'required',
-            'action'    => 'required|in:create,comment,priority,status,assignee',
+            'action'    => 'required|in:comment,priority,close,assignee',
         ]);
+
+        $ticket = Ticket::find($request->input('ticket_id'));
+
+        $this->authorize_action($request, $ticket);
 
         $data = $request->all();
         $data['actor_id'] = $this->user->id;
@@ -56,48 +52,10 @@ class TicketEventController extends RestController
         ];
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+    private function authorize_action($request, $ticket) {
+        if ($this->user->cannot("ticketevent-{$request['action']}", $ticket, $request)) {
+            throw new UnauthorizedAPIRequestException;
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

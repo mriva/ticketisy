@@ -76,6 +76,7 @@ Ticketisy.controller('TicketDetailsController', function($scope, $http, $statePa
             }
         }).success(function(response) {
             $scope.ticket = response;
+            console.log($scope.priority_changed);
         });
     }
 
@@ -98,6 +99,25 @@ Ticketisy.controller('TicketDetailsController', function($scope, $http, $statePa
 
         $http.post('/api/ticketevent', postdata).success(function(response) {
             $scope.newtechnician = null;
+            $scope.get_ticket();
+        });
+    }
+
+    $scope.$watch('newpriority', function(new_value, old_value) {
+        if (typeof(new_value) !== 'undefined') {
+            $scope.priority_changed = true;
+        }
+    });
+
+    $scope.save_priority = function() {
+        var postdata = {
+            ticket_id: $scope.ticket.id,
+            action: 'priority',
+            value: $scope.newpriority
+        }
+
+        $http.post('/api/ticketevent', postdata).success(function(response) {
+            $scope.priority_changed = false;
             $scope.get_ticket();
         });
     }
@@ -125,6 +145,28 @@ Ticketisy.controller('TicketDetailsController', function($scope, $http, $statePa
         });
     }
 
+    $scope.close = function() {
+        $scope.close_box = true;
+    }
+
+    $scope.close_cancel = function() {
+        $scope.closemessage = '';
+        $scope.close_box = false;
+    }
+
+    $scope.close_confirm = function() {
+        var postdata = {
+            ticket_id: ticket_id,
+            action: 'close',
+            value: $scope.closemessage
+        }
+
+        $http.post('/api/ticketevent', postdata).success(function(response) {
+            $scope.comment_open = false;
+            $scope.get_ticket();
+        });
+    }
+
     $scope.get_ticket();
 });
 
@@ -133,7 +175,7 @@ Ticketisy.controller('MyTicketsController', function($scope, $http) {
         params: {
             api_token: $scope.api_token,
             status: 'assigned',
-            technician: 'me',
+            technician: 'me'
         }
     }).success(function(response) {
         $scope.tickets = response.data;

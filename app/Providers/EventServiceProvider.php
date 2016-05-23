@@ -19,7 +19,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\TicketActionPriority' => [
         ],
-        'App\Events\TicketActionStatus' => [
+        'App\Events\TicketActionClose' => [
         ],
         'App\Events\TicketActionAssignee' => [
         ],

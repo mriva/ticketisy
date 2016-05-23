@@ -6,7 +6,7 @@ use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class TicketActionStatus extends Event
+class TicketActionClose extends Event
 {
     use SerializesModels;
 
