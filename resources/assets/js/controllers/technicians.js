@@ -1,13 +1,3 @@
-Ticketisy.controller('TechniciansController', function($scope, $http) {
-    $http.get('/api/user', {
-        params: {
-            role: 'technician',
-        }
-    }).success(function(response) {
-        $scope.users = response.data;
-    });
-});
-
 Ticketisy.controller('TechnicianDetailsController', function($scope, $http, $stateParams) {
     var user_id = $stateParams.id;
 

@@ -1,11 +1,31 @@
-Ticketisy.controller('UsersController', function($scope, $http) {
-    $http.get('/api/user', {
-        params: {
-            role: 'user',
+Ticketisy.controller('UsersController', function($scope, $http, role) {
+    $scope.get_list = function(search) {
+        var args = {
+            params: {
+                role: role
+            }
         }
-    }).success(function(response) {
-        $scope.users = response.data;
-    });
+
+        if (search) {
+            args.params.search = search;
+        }
+
+        $http.get('/api/user', args).success(function(response) {
+            $scope.users = response.data;
+        });
+    }
+
+    $scope.search = function() {
+        console.log($scope.searchuser);
+        $scope.get_list($scope.searchuser);
+    }
+
+    $scope.reset = function() {
+        $scope.searchuser = null;
+        $scope.get_list();
+    }
+
+    $scope.get_list();
 });
 
 Ticketisy.controller('UserDetailsController', function($scope, $http, $stateParams) {

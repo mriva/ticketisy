@@ -54,7 +54,12 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
         .state('users', {
             url: '/users',
             templateUrl: 'views/users.html',
-            controller: 'UsersController'
+            controller: 'UsersController',
+            resolve: {
+                role: function() {
+                    return 'user';
+                }
+            }
         })
         .state('userdetails', {
             url: '/user/:id',
@@ -64,7 +69,12 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
         .state('technicians', {
             url: '/technicians',
             templateUrl: 'views/technicians.html',
-            controller: 'TechniciansController'
+            controller: 'UsersController',
+            resolve: {
+                role: function() {
+                    return 'technician';
+                }
+            }
         })
         .state('techniciandetails', {
             url: '/technician/:id',
@@ -98,6 +108,9 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
                 $modal.open({
                     templateUrl: 'views/modal-unauthorized.html'
                 });
+
+                var $state = $injector.get('$state');
+                $state.go('home');
 
                 return $q.reject(response);
             }

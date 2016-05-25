@@ -7,7 +7,7 @@ use Exception;
 class UnauthorizedAPIRequestException extends Exception {
 
     public function render() {
-        return response('Unauthorized', 401);
+        return response('Unauthorized API request', 401);
     }
 
 }

@@ -54,7 +54,12 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
         .state('users', {
             url: '/users',
             templateUrl: 'views/users.html',
-            controller: 'UsersController'
+            controller: 'UsersController',
+            resolve: {
+                role: function() {
+                    return 'user';
+                }
+            }
         })
         .state('userdetails', {
             url: '/user/:id',
@@ -64,7 +69,12 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
         .state('technicians', {
             url: '/technicians',
             templateUrl: 'views/technicians.html',
-            controller: 'TechniciansController'
+            controller: 'UsersController',
+            resolve: {
+                role: function() {
+                    return 'technician';
+                }
+            }
         })
         .state('techniciandetails', {
             url: '/technician/:id',
@@ -98,6 +108,9 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
                 $modal.open({
                     templateUrl: 'views/modal-unauthorized.html'
                 });
+
+                var $state = $injector.get('$state');
+                $state.go('home');
 
                 return $q.reject(response);
             }
@@ -168,16 +181,6 @@ Ticketisy.controller('ServiceDetailsController', function($scope, $http, $stateP
         }
     }).success(function(response) {
         $scope.tickets = response.data;
-    });
-});
-
-Ticketisy.controller('TechniciansController', function($scope, $http) {
-    $http.get('/api/user', {
-        params: {
-            role: 'technician',
-        }
-    }).success(function(response) {
-        $scope.users = response.data;
     });
 });
 
@@ -407,14 +410,34 @@ Ticketisy.controller('MyTicketsController', function($scope, $http) {
     });
 });
 
-Ticketisy.controller('UsersController', function($scope, $http) {
-    $http.get('/api/user', {
-        params: {
-            role: 'user',
+Ticketisy.controller('UsersController', function($scope, $http, role) {
+    $scope.get_list = function(search) {
+        var args = {
+            params: {
+                role: role
+            }
         }
-    }).success(function(response) {
-        $scope.users = response.data;
-    });
+
+        if (search) {
+            args.params.search = search;
+        }
+
+        $http.get('/api/user', args).success(function(response) {
+            $scope.users = response.data;
+        });
+    }
+
+    $scope.search = function() {
+        console.log($scope.searchuser);
+        $scope.get_list($scope.searchuser);
+    }
+
+    $scope.reset = function() {
+        $scope.searchuser = null;
+        $scope.get_list();
+    }
+
+    $scope.get_list();
 });
 
 Ticketisy.controller('UserDetailsController', function($scope, $http, $stateParams) {

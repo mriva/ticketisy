@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\DB;
 class UserCollection extends RestCollection {
     
     protected $local_actions = [
-        'role' => 'filterRole',
+        'role'       => 'filterRole',
         'department' => 'filterDepartment',
+        'search'     => 'filterSearch',
     ];
 
     public function __construct() {
@@ -35,6 +36,15 @@ class UserCollection extends RestCollection {
         $this->resource = $this->resource
             ->join('users_departments', 'users.id', '=', 'users_departments.user_id')
             ->where('users_departments.department_id', $department_id);
+    }
+
+    protected function filterSearch($q) {
+        $this->resource = $this->resource
+            ->where(function($query) use ($q) {
+                $query->orWhere('id', '=', $q);
+                $query->orWhere('name', 'LIKE', "%{$q}%");
+                $query->orWhere('email', 'LIKE', "%{$q}%");
+            });
     }
 
 }
