@@ -14,7 +14,6 @@ Ticketisy.controller('NewServiceController', function($scope, $http, $state) {
     });
 
     var postdata = $scope.newservice;
-    postdata.api_token = $scope.api_token;
 
     $scope.save = function() {
         $http.post('/api/service', postdata).success(function(response) {

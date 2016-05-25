@@ -25,18 +25,19 @@ class User extends Authenticatable
         'password', 'remember_token', 'api_token'
     ];
 
+    protected $with = ['departments'];
+
+    public function departments() {
+        return $this->belongsToMany('App\Department', 'users_departments');
+    }
+
     public static function create(array $attributes = []) {
         $model = new static($attributes);
 
         $model->save();
 
         if (!empty($attributes['departments'])) {
-            foreach ($attributes['departments'] as $department_id) {
-                DB::table('users_departments')->insert([
-                    'user_id'       => $model->id,
-                    'department_id' => $department_id,
-                ]);
-            }
+            $model->departments()->attach($attributes['departments']);
         }
 
         return $model;

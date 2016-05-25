@@ -53,7 +53,7 @@ class TicketEventController extends RestController
     }
 
     private function authorize_action($request, $ticket) {
-        if ($this->user->cannot("ticketevent-{$request['action']}", $ticket, $request)) {
+        if ($this->user->cannot($request['action'], [$ticket, $request])) {
             throw new UnauthorizedAPIRequestException;
         }
     }

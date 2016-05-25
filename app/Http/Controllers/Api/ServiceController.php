@@ -32,16 +32,6 @@ class ServiceController extends RestController
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -50,9 +40,7 @@ class ServiceController extends RestController
     public function store(Request $request)
     {
         if ($this->user->cannot('activate-service')) {
-            return response([
-                'auth' => 'User role not allowed'
-            ], 401);
+            throw new UnauthorizedAPIRequestException;
         }
 
         $this->validate($request, [
@@ -78,18 +66,13 @@ class ServiceController extends RestController
      */
     public function show($id)
     {
-        return response()->json(Service::find($id));
-    }
+        $service = Service::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        if ($this->user->cannot('show', $service)) {
+            throw new UnauthorizedAPIRequestException;
+        }
+
+        return response()->json($service);
     }
 
     /**

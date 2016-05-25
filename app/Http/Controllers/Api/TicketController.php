@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Collections\TicketCollection;
 use App\Ticket;
 use App\TicketEvent;
+use App\Exceptions\UnauthorizedAPIRequestException;
 
 class TicketController extends RestController
 {
@@ -29,16 +30,6 @@ class TicketController extends RestController
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -47,9 +38,7 @@ class TicketController extends RestController
     public function store(Request $request)
     {
         if ($this->user->cannot('create-ticket', $request)) {
-            return response([
-                'auth' => 'Unauthorized'
-            ], 401);
+            throw new UnauthorizedAPIRequestException;
         }
 
         $this->validate($request, [
@@ -94,46 +83,11 @@ class TicketController extends RestController
     {
         $ticket = Ticket::find($id);
 
-        if ($this->user->cannot('access-ticket', $ticket)) {
-            return response([
-                'auth' => 'Unauthorized'
-            ], 401);
+        if ($this->user->cannot('show', $ticket)) {
+            throw new UnauthorizedAPIRequestException;
         }
 
         return $ticket;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

@@ -62,6 +62,7 @@ class UserController extends RestController
             'password'  => bcrypt($data['password']),
             'role'      => $data['role'],
             'api_token' => str_random(60),
+            'departments' => $data['departments'],
         ]);
 
         return [
