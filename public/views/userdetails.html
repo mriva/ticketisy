@@ -5,6 +5,7 @@
         <div class="panel-body">
             <h4>Dettagli generali</h4>
             <ul>
+                <li><b>Codice:</b> USR#{{user.id}}</li>
                 <li><b>Data registrazione:</b> {{user.created_at | dateTimeEU}}</li>
                 <li><b>Nome:</b> {{user.name}}</li>
                 <li><b>Email:</b> {{user.email}}</li>
@@ -13,7 +14,7 @@
             <h4>Servizi attivi</h4>
             <ng-include src="'views/partial-servicetable.html'"></ng-include>
 
-            <h4>Ticket aperti</h4>
+            <h4>Elenco ticket</h4>
             <ng-include src="'views/partial-tickettable.html'"></ng-include>
         </div>
     </div>
