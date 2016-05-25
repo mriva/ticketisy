@@ -10,6 +10,7 @@ use App\Collections\ServiceCollection;
 use Illuminate\Support\Facades\Auth;
 use App\Service;
 use Illuminate\Support\Facades\Gate;
+use App\Exceptions\UnauthorizedAPIRequestException;
 
 class ServiceController extends RestController
 {

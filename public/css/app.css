@@ -8,4 +8,8 @@
     padding: 5px 0 10px 0;
     margin-bottom: 10px; }
 
+.ticket-table .closed {
+  background-color: #dddddd;
+  color: #666666; }
+
 /*# sourceMappingURL=app.css.map */

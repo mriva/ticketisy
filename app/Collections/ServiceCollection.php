@@ -12,9 +12,14 @@ class ServiceCollection extends RestCollection {
 
     public function __construct() {
         $this->resource = DB::table('services')
-            ->select('services.*', 'products.title', 'products.description', DB::raw('COUNT(tickets.id) AS open_tickets'))
+            ->select([
+                'services.*',
+                'products.title',
+                'products.description',
+                DB::raw("(SELECT COUNT(id) FROM tickets WHERE service_id = services.id AND status != 'closed') AS open_tickets"),
+                DB::raw("(SELECT COUNT(id) FROM tickets WHERE service_id = services.id) AS total_tickets")
+            ])
             ->join('products', 'services.product_id', '=', 'products.id')
-            ->leftJoin('tickets', 'tickets.service_id', '=', 'services.id')
             ->groupBy('services.id');
 
         $this->actions = array_merge($this->actions, $this->local_actions);

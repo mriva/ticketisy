@@ -4,6 +4,7 @@
                     <th>Tipologia</th>
                     <th>Attivazione</th>
                     <th>Ticket aperti</th>
+                    <th>Ticket totali</th>
                     <th></th>
                 </tr>
                 <tr ng-repeat="service in services">
@@ -11,6 +12,7 @@
                     <td>{{service.title}}</td>
                     <td>{{service.created_at | dateTimeEU}}</td>
                     <td>{{service.open_tickets}}</td>
+                    <td>{{service.total_tickets}}</td>
                     <td class="text-right"><a href="/#service/{{service.id}}" class="btn btn-xs btn-danger">gestisci</a></td>
                 </tr>
             </table>

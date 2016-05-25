@@ -78,17 +78,28 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
         });
 })
 .config(function($httpProvider) {
-    $httpProvider.interceptors.push(function ($q) {
+    $httpProvider.interceptors.push(function ($q, $injector) {
         return {
             'request': function(config) {
                 if (config.url.match(/^\/api\//)) {
-                    // config.url = config.url + '?api_token=' + App.api_token;
                     if (typeof(config.params) === 'undefined') {
                         config.params = {};
                     }
                     config.params.api_token = App.api_token;
                 }
                 return config;
+            },
+            'responseError': function(response) {
+                if (response.status != '401') {
+                    return $q.reject(response);
+                }
+
+                var $modal = $injector.get('$uibModal');
+                $modal.open({
+                    templateUrl: 'views/modal-unauthorized.html'
+                });
+
+                return $q.reject(response);
             }
 
         }
@@ -115,19 +126,12 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
 });
 
 Ticketisy.controller('HomeController', function($scope, $http) {
-    console.log($scope.role);
 });
 
 Ticketisy.controller('ServicesController', function($scope, $http) {
-    $http.get('/api/service', {
-        params: {
-            api_token: $scope.api_token
-        }
-    }).success(function(response) {
+    $http.get('/api/service').success(function(response) {
         $scope.services = response.data;
         $scope.empty = !response.data.length;
-    }).error(function(response) {
-        console.log('error');
     });
 });
 
@@ -135,11 +139,7 @@ Ticketisy.controller('NewServiceController', function($scope, $http, $state) {
     $scope.newservice = {};
     $scope.errors = {};
 
-    $http.get('/api/product', {
-        params: {
-            api_token: $scope.api_token
-        }
-    }).success(function(response) {
+    $http.get('/api/product').success(function(response) {
         $scope.products = response.data;
     });
 
@@ -158,18 +158,13 @@ Ticketisy.controller('NewServiceController', function($scope, $http, $state) {
 Ticketisy.controller('ServiceDetailsController', function($scope, $http, $stateParams) {
     var service_id = $stateParams.id
 
-    $http.get('/api/service/' + service_id, {
-        params: {
-            api_token: $scope.api_token
-        }
-    }).success(function(response) {
+    $http.get('/api/service/' + service_id).success(function(response) {
         $scope.service = response;
     });
 
     $http.get('/api/ticket', {
         params: {
-            api_token: $scope.api_token,
-            service: service_id,
+            service: service_id
         }
     }).success(function(response) {
         $scope.tickets = response.data;
@@ -276,18 +271,13 @@ Ticketisy.controller('NewTicketController', function($scope, $http, $state, $sta
     $http.get('/api/service/' + service_id).success(function(response) {
         $scope.service = response;
         $scope.newticket.service_id = response.id;
-    }).error(function(response) {
-        console.log('error');
     });
 
     $http.get('/api/department').success(function(response) {
         $scope.departments = response.data;
-    }).error(function(response) {
-        console.log('error');
     });
 
     var postdata = $scope.newticket;
-    postdata.api_token = $scope.api_token;
 
     $scope.save = function() {
         $http.post('/api/ticket', postdata).success(function(response) {
@@ -305,11 +295,7 @@ Ticketisy.controller('TicketDetailsController', function($scope, $http, $statePa
     $scope.App = App;
 
     $scope.get_ticket = function() {
-        $http.get('/api/ticket/' + ticket_id, {
-            params: {
-                api_token: $scope.api_token
-            }
-        }).success(function(response) {
+        $http.get('/api/ticket/' + ticket_id).success(function(response) {
             $scope.ticket = response;
             $scope.get_technicians();
         });
@@ -371,7 +357,6 @@ Ticketisy.controller('TicketDetailsController', function($scope, $http, $statePa
 
     $scope.comment_save = function() {
         var postdata = {
-            api_token: $scope.api_token,
             ticket_id: ticket_id,
             action: 'comment',
             value: $scope.newcomment
@@ -413,15 +398,12 @@ Ticketisy.controller('TicketDetailsController', function($scope, $http, $statePa
 Ticketisy.controller('MyTicketsController', function($scope, $http) {
     $http.get('/api/ticket', {
         params: {
-            api_token: $scope.api_token,
             status: 'assigned',
             technician: 'me'
         }
     }).success(function(response) {
         $scope.tickets = response.data;
         $scope.empty = !response.data.length;
-    }).error(function(response) {
-        console.log('error');
     });
 });
 

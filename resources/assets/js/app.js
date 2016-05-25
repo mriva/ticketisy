@@ -78,17 +78,28 @@ var Ticketisy = angular.module('ticketisy', ['ui.bootstrap', 'ui.router'])
         });
 })
 .config(function($httpProvider) {
-    $httpProvider.interceptors.push(function ($q) {
+    $httpProvider.interceptors.push(function ($q, $injector) {
         return {
             'request': function(config) {
                 if (config.url.match(/^\/api\//)) {
-                    // config.url = config.url + '?api_token=' + App.api_token;
                     if (typeof(config.params) === 'undefined') {
                         config.params = {};
                     }
                     config.params.api_token = App.api_token;
                 }
                 return config;
+            },
+            'responseError': function(response) {
+                if (response.status != '401') {
+                    return $q.reject(response);
+                }
+
+                var $modal = $injector.get('$uibModal');
+                $modal.open({
+                    templateUrl: 'views/modal-unauthorized.html'
+                });
+
+                return $q.reject(response);
             }
 
         }

@@ -25,11 +25,15 @@ class RestCollection {
 
         $count = $instance->resource->count();
 
+        $instance->take();
+        $instance->skip();
+
         $data = $instance->resource->get();
 
         return [
             'total'    => $count,
             'returned' => count($data),
+            'offset'   => $instance->skip,
             'data'     => $data,
         ];
     }
@@ -43,9 +47,6 @@ class RestCollection {
             $method = $this->actions[$action];
             $this->$method($value);
         }
-
-        $this->take();
-        $this->skip();
     }
 
     public function take() {
@@ -57,11 +58,11 @@ class RestCollection {
     }
 
     public function setTake($value) {
-        $this->take = $value;
+        $this->take = (int) $value;
     }
 
     public function setSkip($value) {
-        $this->skip = $value;
+        $this->skip = (int) $value;
     }
 
 }

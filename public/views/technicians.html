@@ -14,6 +14,7 @@
         <div class="panel-body">
             <table class="table">
                 <tr>
+                    <th>Cod</th>
                     <th>Nome</th>
                     <th>Email</th>
                     <th>Ticket aperti</th>
@@ -23,6 +24,7 @@
                 </tr>
 
                 <tr ng-repeat="user in users">
+                    <td>OP#{{user.id}}</td>
                     <td>{{user.name}}</td>
                     <td>{{user.email}}</td>
                     <td>{{user.tickets_count}}</td>
