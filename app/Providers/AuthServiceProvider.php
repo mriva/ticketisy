@@ -14,7 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
+        'App\User' => 'App\Policies\UserPolicy',
     ];
 
     /**
@@ -60,6 +60,10 @@ class AuthServiceProvider extends ServiceProvider
                 return !$role || $role == 'user';
             }
 
+            return false;
+        });
+
+        $gate->define('create-user', function($user, $role) {
             return false;
         });
 

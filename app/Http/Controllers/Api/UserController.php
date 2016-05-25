@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Collections\UserCollection;
 use App\User;
+use App\Exceptions\UnauthorizedAPIRequestException;
 
 class UserController extends RestController
 {
@@ -25,9 +26,7 @@ class UserController extends RestController
         $role = $request->input('role');
 
         if ($this->user->cannot('list-users', $role)) {
-            return response([
-                'auth' => 'Unauthorized'
-            ], 401);
+            throw new UnauthorizedAPIRequestException;
         }
         
         $filters = $request->all();
@@ -53,6 +52,10 @@ class UserController extends RestController
 
         $data = $request->all();
 
+        if ($this->user->cannot('create-user', $data['role'])) {
+            throw new UnauthorizedAPIRequestException;
+        }
+
         User::create([
             'name'      => $data['name'],
             'email'     => $data['email'],
@@ -75,6 +78,10 @@ class UserController extends RestController
     public function show($id)
     {
         $user = User::find($id);
+
+        if ($this->user->cannot('show', $user)) {
+            throw new UnauthorizedAPIRequestException;
+        }
 
         return $user;
     }
