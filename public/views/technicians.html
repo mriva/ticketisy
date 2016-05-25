@@ -12,11 +12,7 @@
         </div>
 
         <div class="panel-body">
-            <div class="form-group form-inline">
-                <input type="text" class="form-control" ng-model="searchuser" placeholder="Cerca per codice, nome o email" style="width: 300px;">
-                <button class="btn btn-success" ng-click="search()">Cerca</button>
-                <button class="btn btn-danger" ng-click="reset()">Resetta</button>
-            </div>
+            <ng-include src="'views/partial-searchbox.html'"></ng-include>
 
             <table class="table">
                 <tr>

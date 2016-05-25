@@ -1,0 +1,5 @@
+<div class="form-group form-inline">
+    <input type="text" ng-keypress="search_keypress($event, searchuser)" class="form-control" ng-model="searchuser" placeholder="Cerca per codice, nome o email" style="width: 300px;">
+    <button class="btn btn-success" ng-click="search(searchuser)">Cerca</button>
+    <button class="btn btn-danger" ng-click="searchuser = null; get_list()">Resetta</button>
+</div>

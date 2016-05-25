@@ -15,14 +15,14 @@ Ticketisy.controller('UsersController', function($scope, $http, role) {
         });
     }
 
-    $scope.search = function() {
-        console.log($scope.searchuser);
-        $scope.get_list($scope.searchuser);
+    $scope.search = function(q) {
+        $scope.get_list(q);
     }
 
-    $scope.reset = function() {
-        $scope.searchuser = null;
-        $scope.get_list();
+    $scope.search_keypress = function(key, q) {
+        if (key.which == 13) {
+            $scope.search(q);
+        }
     }
 
     $scope.get_list();
