@@ -39,7 +39,8 @@ class TicketPolicy
             return $user->id == $ticket->user_id;
         }
 
-        return $user->id == $ticket->technician_id;
+        return true;
+        // return $user->id == $ticket->technician_id;
     }
 
     public function priority(User $user, Ticket $ticket)  {

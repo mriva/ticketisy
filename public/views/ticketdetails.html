@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group form-inline col-md-6" ng-hide="role == 'user' || ticket.status == 'closed'">
+                <div class="form-group form-inline col-md-6" ng-hide="role == 'user' || ticket.status == 'closed' || ticket.technician_id != App.user_id">
                     <label>Modifica priorità</label><br>
                     <select ng-model="newpriority" class="form-control" style="width: 300px">
                         <option value="normal">Normale</option>
