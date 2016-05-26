@@ -5,13 +5,15 @@
         <div class="panel-body">
             <h4>Dettagli generali</h4>
             <ul>
+                <li><b>Titolo:</b> {{ticket.title}}</li>
                 <li><b>Data creazione:</b> {{ticket.created_at | dateTimeEU}}</li>
                 <li><b>Inserito da:</b> {{ticket.user.name}}</li>
                 <li><b>Priorità:</b> {{ticket.priority}}</li>
+                <li><b>Stato:</b> {{ticket.status}}</li>
                 <li><b>Dipartimento:</b> {{ticket.department.name}}</li>
                 <li><b>Servizio:</b> {{ticket.service.name}}</li>
                 <li><b>Prodotto:</b> {{ticket.service.product.title}}</li>
-                <li ng-show="ticket.technician_id"><b>Operatore:</b> {{ticket.technician.name}} &lt;{{ticket.technician.email}}&gt;</li>
+                <li ng-show="ticket.technician_id"><b>Operatore:</b> OP#{{ticket.technician.id}} {{ticket.technician.name}} &lt;{{ticket.technician.email}}&gt;</li>
                 <li ng-hide="ticket.technician_id"><b>Operatore:</b> <i>non assegnato</i></li>
             </ul>
 
@@ -49,6 +51,7 @@
             <div class="text-center">
                 <div ng-show="comment_open">
                     <div class="form-group">
+                        <label>Messaggio:</label>
                         <textarea ng-model="newcomment" class="form-control"></textarea>
                     </div>
 
@@ -58,6 +61,7 @@
 
                 <div ng-show="close_box">
                     <div class="form-group">
+                        <label>Messaggio di chiusura:</label>
                         <textarea ng-model="closemessage" class="form-control"></textarea>
                     </div>
 
