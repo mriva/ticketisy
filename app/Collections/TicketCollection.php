@@ -12,6 +12,7 @@ class TicketCollection extends RestCollection {
         'service'    => 'filterService',
         'status'     => 'filterStatus',
         'technician' => 'filterTechnician',
+        'department' => 'filterDepartment',
     ];
 
     public function __construct() {
@@ -52,6 +53,12 @@ class TicketCollection extends RestCollection {
     protected function filterStatus($status) {
         $values = explode(',', $status);
         $this->resource = $this->resource->whereIn('status', $values);
+    }
+
+    protected function filterDepartment($departments) {
+        $department_ids = explode(',', $departments);
+
+        $this->resource = $this->resource->whereIn('department_id', $department_ids);
     }
 
     protected function filterTechnician($value) {

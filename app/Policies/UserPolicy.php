@@ -26,6 +26,10 @@ class UserPolicy
     }
 
     public function show(User $user, $requested) {
+        if ($user->id == $requested->id) {
+            return true;
+        }
+
         if ($user->role == 'user') {
             return false;
         }
