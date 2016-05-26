@@ -9,13 +9,19 @@ class RestCollection {
     protected $filters;
 
     protected $actions = [
-        'take' => 'setTake',
-        'skip' => 'setSkip',
+        'take'     => 'setTake',
+        'skip'     => 'setSkip',
+        'sort_by'  => 'setSortBy',
+        'sort_dir' => 'setSortDir',
     ];
 
     protected $take = 30;
 
     protected $skip = 0;
+
+    protected $sort_by = null;
+
+    protected $sort_dir = 'ASC';
 
     public static function get($filters = []) {
         $instance = new static;
@@ -27,6 +33,7 @@ class RestCollection {
 
         $instance->take();
         $instance->skip();
+        $instance->sort();
 
         $data = $instance->resource->get();
 
@@ -57,12 +64,28 @@ class RestCollection {
         $this->resource = $this->resource->skip($this->skip);
     }
 
+    public function sort() {
+        if (!$this->sort_by) {
+            return;
+        }
+
+        $this->resource = $this->resource->orderBy($this->sort_by, $this->sort_dir);
+    }
+
     public function setTake($value) {
         $this->take = (int) $value;
     }
 
     public function setSkip($value) {
         $this->skip = (int) $value;
+    }
+
+    public function setSortBy($value) {
+        $this->sort_by = $value;
+    }
+
+    public function setSortDir($value) {
+        $this->sort_dir = $value;
     }
 
 }
