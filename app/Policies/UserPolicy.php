@@ -19,6 +19,12 @@ class UserPolicy
         //
     }
 
+    public function before(User $user, $ability) {
+        if ($user->role == 'admin') {
+            return true;
+        }
+    }
+
     public function show(User $user, $requested) {
         if ($user->role == 'user') {
             return false;
