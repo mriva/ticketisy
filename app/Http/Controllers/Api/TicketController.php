@@ -10,6 +10,7 @@ use App\Collections\TicketCollection;
 use App\Ticket;
 use App\TicketEvent;
 use App\Exceptions\UnauthorizedAPIRequestException;
+use App\Service;
 
 class TicketController extends RestController
 {
@@ -50,7 +51,14 @@ class TicketController extends RestController
         ]);
 
         $data = $request->all();
-        $data['user_id'] = $this->user->id;
+
+        $service = Service::find($data['service_id']);
+        if (!$service) {
+            throw new UnauthorizedAPIRequestException;
+        }
+
+        $data['user_id'] = $service->user_id;
+
         $data['status'] = 'pending';
 
         $ticket = Ticket::create($data);
