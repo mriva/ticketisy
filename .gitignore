@@ -8,3 +8,5 @@ Homestead.json
 **/*.map
 tags
 tags-vendor
+storage/
+.idea
